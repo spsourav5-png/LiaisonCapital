@@ -9,6 +9,7 @@ import Protocol from './pages/Protocol';
 import { Web3ModalProvider } from './Web3ModalProvider';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Toaster } from 'sonner';
+import { Analytics } from '@vercel/analytics/react';
 
 const CONTRACT = '0xa2f93b5333E82E281764005b88EEfdC9E1dEC921';
 const SHORT_CONTRACT = '0xa2f93b53...C921';
@@ -165,6 +166,7 @@ const Footer = () => {
 function App() {
   return (
     <Web3ModalProvider>
+      <Analytics />
       <Toaster 
         theme="dark" 
         position="top-right" 
