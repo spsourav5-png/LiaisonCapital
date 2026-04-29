@@ -197,6 +197,7 @@ function App() {
           <Footer />
         </div>
       </Router>
+      <Analytics />
     </Web3ModalProvider>
   );
 }
