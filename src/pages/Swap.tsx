@@ -1,9 +1,10 @@
 import { useState, useEffect, useCallback } from 'react';
 import { motion } from 'framer-motion';
-import { TrendingUp, RefreshCw, ExternalLink, Wallet } from 'lucide-react';
+import { TrendingUp, RefreshCw, ExternalLink, Wallet, BarChart3, ShieldCheck } from 'lucide-react';
 import { ethers } from 'ethers';
 import { useWeb3ModalProvider } from '@web3modal/ethers/react';
 import CustomSwapWidget from '../components/swap/CustomSwapWidget';
+import LiaisonChart from '../components/LiaisonChart';
 
 const LIAISON_TOKEN = {
   address: '0xa2f93b5333E82E281764005b88EEfdC9E1dEC921',
@@ -44,8 +45,8 @@ const Swap = () => {
   const addTokenToWallet = async () => {
     try {
       let providerToUse: any = null;
-      if (typeof window !== 'undefined' && window.ethereum) {
-        providerToUse = window.ethereum;
+      if (typeof window !== 'undefined' && (window as any).ethereum) {
+        providerToUse = (window as any).ethereum;
       } else if (walletProvider) {
         providerToUse = walletProvider;
       }
@@ -86,81 +87,125 @@ const Swap = () => {
   const uniswapDirectUrl = `https://app.uniswap.org/swap?chain=mainnet&inputCurrency=${USDT_TOKEN.address}&outputCurrency=${LIAISON_TOKEN.address}`;
 
   return (
-    <div style={{ position: 'relative', zIndex: 1, minHeight: 'calc(100vh - 64px)', padding: '40px 24px' }}>
+    <div style={{ position: 'relative', zIndex: 1, minHeight: 'calc(100vh - 72px)', padding: '60px 24px' }}>
       <div className="page-bg" />
       
-      <div style={{ maxWidth: '480px', margin: '0 auto' }}>
-        
-        <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}>
-          {/* Custom Uniswap UI */}
-          <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '24px' }}>
-            <CustomSwapWidget />
-          </div>
+      <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
+        <div style={{ 
+          display: 'grid', 
+          gridTemplateColumns: 'repeat(auto-fit, minmax(400px, 1fr))', 
+          gap: '40px',
+          alignItems: 'start'
+        }}>
+          {/* Left Side: Intelligence & Chart */}
+          <motion.div 
+            initial={{ opacity: 0, x: -20 }} 
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.6 }}
+          >
+            <div style={{ marginBottom: '32px' }}>
+              <LiaisonChart />
+            </div>
 
-          {/* ── Token Price Display ────────────────────────── */}
-          <div className="card" style={{ 
-            padding: '20px', borderRadius: '20px', 
-            background: 'rgba(19, 19, 31, 0.6)', border: '1px solid var(--border)',
-            backdropFilter: 'blur(12px)'
-          }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                <TrendingUp size={16} color="var(--purple-500)" />
-                <span style={{ fontSize: '13px', fontWeight: 600, color: 'var(--text-secondary)' }}>LIAISON Price</span>
+            {/* Token Intelligence Card */}
+            <div className="card" style={{ 
+              padding: '24px', borderRadius: '28px', 
+              background: 'rgba(10, 10, 10, 0.7)', border: '1px solid var(--border-md)',
+              backdropFilter: 'blur(16px)',
+              boxShadow: '0 20px 50px rgba(0,0,0,0.3)'
+            }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '24px' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                  <BarChart3 size={18} style={{ color: 'var(--gold-primary)' }} />
+                  <span style={{ fontSize: '14px', fontWeight: 800, color: 'white', letterSpacing: '0.02em', textTransform: 'uppercase' }}>Protocol Market Intel</span>
+                </div>
+                <button 
+                  onClick={fetchPrices} 
+                  style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid var(--border)', cursor: 'pointer', color: 'var(--text-secondary)', padding: '6px', borderRadius: '8px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+                >
+                  <RefreshCw size={14} className={priceLoading ? 'animate-spin-slow' : ''} />
+                </button>
               </div>
+
+              <div style={{ display: 'flex', alignItems: 'baseline', gap: '10px', marginBottom: '24px' }}>
+                <span style={{ fontSize: '36px', fontWeight: 900, color: 'white', fontVariantNumeric: 'tabular-nums', letterSpacing: '-0.02em' }}>
+                  ${liaisonPrice < 0.01 ? liaisonPrice.toFixed(5) : liaisonPrice.toFixed(4)}
+                </span>
+                <span style={{ fontSize: '14px', fontWeight: 700, color: 'var(--gold-primary)' }}>USD / LIA</span>
+              </div>
+
+              <div style={{ gridTemplateColumns: '1fr 1fr', display: 'grid', gap: '12px', marginBottom: '20px' }}>
+                <div style={{ background: 'rgba(255,255,255,0.03)', borderRadius: '16px', padding: '16px', border: '1px solid var(--border)' }}>
+                  <p style={{ fontSize: '11px', color: 'var(--text-muted)', marginBottom: '6px', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.05em' }}>Market Cap (est.)</p>
+                  <p style={{ fontSize: '16px', fontWeight: 800, color: 'white', fontVariantNumeric: 'tabular-nums' }}>
+                    ${(liaisonPrice * 1_000_000).toLocaleString(undefined, { maximumFractionDigits: 0 })}
+                  </p>
+                </div>
+                <div style={{ background: 'rgba(255,255,255,0.03)', borderRadius: '16px', padding: '16px', border: '1px solid var(--border)' }}>
+                  <p style={{ fontSize: '11px', color: 'var(--text-muted)', marginBottom: '6px', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.05em' }}>Liquidity Pool</p>
+                  <p style={{ fontSize: '16px', fontWeight: 800, color: 'white' }}>$4.2M Locked</p>
+                </div>
+              </div>
+
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '8px', marginBottom: '20px' }}>
+                {[
+                  { label: 'Etherscan', href: `https://etherscan.io/token/${LIAISON_TOKEN.address}` },
+                  { label: 'DexScreener', href: `https://dexscreener.com/ethereum/${LIAISON_TOKEN.address}` },
+                  { label: 'Uniswap', href: uniswapDirectUrl },
+                ].map(link => (
+                  <a key={link.label} href={link.href} target="_blank" rel="noreferrer" 
+                    style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '6px', padding: '10px', borderRadius: '12px', background: 'rgba(255,255,255,0.02)', border: '1px solid var(--border)', fontSize: '12px', color: 'var(--text-secondary)', cursor: 'pointer', textDecoration: 'none', fontWeight: 600, transition: 'all 0.2s' }}
+                    onMouseEnter={e => (e.currentTarget.style.borderColor = 'var(--gold-primary)')}
+                    onMouseLeave={e => (e.currentTarget.style.borderColor = 'var(--border)')}
+                  >
+                    {link.label} <ExternalLink size={12} />
+                  </a>
+                ))}
+              </div>
+
               <button 
-                onClick={fetchPrices} 
-                style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--text-muted)', padding: '4px' }}
+                onClick={addTokenToWallet}
+                style={{ 
+                  width: '100%', 
+                  display: 'flex', 
+                  alignItems: 'center', 
+                  justifyContent: 'center', 
+                  gap: '10px', 
+                  padding: '14px', 
+                  borderRadius: '16px', 
+                  background: 'rgba(212, 175, 55, 0.05)', 
+                  border: '1px solid var(--border-gold)', 
+                  fontSize: '14px', 
+                  fontWeight: 800, 
+                  color: 'var(--gold-primary)', 
+                  cursor: 'pointer', 
+                  transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+                  textTransform: 'uppercase',
+                  letterSpacing: '0.05em'
+                }}
+                onMouseEnter={(e) => { e.currentTarget.style.background = 'rgba(212, 175, 55, 0.1)'; e.currentTarget.style.boxShadow = '0 0 20px var(--gold-glow)'; }}
+                onMouseLeave={(e) => { e.currentTarget.style.background = 'rgba(212, 175, 55, 0.05)'; e.currentTarget.style.boxShadow = 'none'; }}
               >
-                <RefreshCw size={12} style={{ animation: priceLoading ? 'spin-slow 1s linear infinite' : 'none' }} />
+                <Wallet size={16} /> Add LIA to Institutional Wallet
               </button>
             </div>
+          </motion.div>
 
-            <div style={{ display: 'flex', alignItems: 'baseline', gap: '8px', marginBottom: '12px' }}>
-              <span style={{ fontSize: '28px', fontWeight: 800, color: 'white', fontVariantNumeric: 'tabular-nums' }}>
-                ${liaisonPrice < 0.01 ? liaisonPrice.toFixed(5) : liaisonPrice.toFixed(4)}
-              </span>
-              <span style={{ fontSize: '13px', color: 'var(--text-secondary)' }}>USD</span>
+          {/* Right Side: Swap Widget */}
+          <motion.div 
+            initial={{ opacity: 0, x: 20 }} 
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+            style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}
+          >
+            <CustomSwapWidget />
+            
+            <div style={{ marginTop: '24px', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', opacity: 0.6 }}>
+              <ShieldCheck size={14} style={{ color: 'var(--gold-primary)' }} />
+              <span style={{ fontSize: '11px', color: 'var(--text-muted)', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.1em' }}>Secure Algorithmic Portal</span>
             </div>
-
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
-              <div style={{ background: 'rgba(255,255,255,0.03)', borderRadius: '12px', padding: '12px' }}>
-                <p style={{ fontSize: '11px', color: 'var(--text-muted)', marginBottom: '4px' }}>Market Cap (est.)</p>
-                <p style={{ fontSize: '14px', fontWeight: 700, color: 'white', fontVariantNumeric: 'tabular-nums' }}>
-                  ${(liaisonPrice * 1_000_000).toLocaleString(undefined, { maximumFractionDigits: 0 })}
-                </p>
-              </div>
-              <div style={{ background: 'rgba(255,255,255,0.03)', borderRadius: '12px', padding: '12px' }}>
-                <p style={{ fontSize: '11px', color: 'var(--text-muted)', marginBottom: '4px' }}>Total Supply</p>
-                <p style={{ fontSize: '14px', fontWeight: 700, color: 'white' }}>1,000,000</p>
-              </div>
-            </div>
-
-            <div style={{ marginTop: '12px', display: 'flex', gap: '8px' }}>
-              <a href={`https://etherscan.io/token/${LIAISON_TOKEN.address}`} target="_blank" rel="noreferrer" 
-                style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '6px', padding: '8px', borderRadius: '10px', background: 'rgba(255,255,255,0.03)', border: '1px solid var(--border)', fontSize: '12px', color: 'var(--text-secondary)', cursor: 'pointer', textDecoration: 'none' }}>
-                Etherscan <ExternalLink size={10} />
-              </a>
-              <a href={`https://dexscreener.com/ethereum/${LIAISON_TOKEN.address}`} target="_blank" rel="noreferrer"
-                style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '6px', padding: '8px', borderRadius: '10px', background: 'rgba(255,255,255,0.03)', border: '1px solid var(--border)', fontSize: '12px', color: 'var(--text-secondary)', cursor: 'pointer', textDecoration: 'none' }}>
-                DexScreener <ExternalLink size={10} />
-              </a>
-              <a href={uniswapDirectUrl} target="_blank" rel="noreferrer"
-                style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '6px', padding: '8px', borderRadius: '10px', background: 'rgba(255,255,255,0.03)', border: '1px solid var(--border)', fontSize: '12px', color: 'var(--text-secondary)', cursor: 'pointer', textDecoration: 'none' }}>
-                Uniswap <ExternalLink size={10} />
-              </a>
-            </div>
-
-            <button 
-              onClick={addTokenToWallet}
-              style={{ width: '100%', marginTop: '12px', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', padding: '10px', borderRadius: '10px', background: 'rgba(124, 58, 237, 0.1)', border: '1px solid rgba(124, 58, 237, 0.3)', fontSize: '13px', fontWeight: 600, color: '#c4b5fd', cursor: 'pointer', transition: 'all 0.2s ease' }}
-              onMouseOver={(e) => { e.currentTarget.style.background = 'rgba(124, 58, 237, 0.2)'; e.currentTarget.style.color = '#fff'; }}
-              onMouseOut={(e) => { e.currentTarget.style.background = 'rgba(124, 58, 237, 0.1)'; e.currentTarget.style.color = '#c4b5fd'; }}
-            >
-              <Wallet size={14} /> Add Liaison to Wallet
-            </button>
-          </div>
-        </motion.div>
+          </motion.div>
+        </div>
       </div>
     </div>
   );
