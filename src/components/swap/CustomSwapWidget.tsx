@@ -1,11 +1,11 @@
 import { useState, useEffect } from 'react';
-import { ArrowDown, Loader2, Settings, AlertCircle, TrendingUp, Info, RefreshCw, Wallet, ShieldCheck, ExternalLink } from 'lucide-react';
+import { ArrowDown, Loader2, Settings, AlertCircle, ExternalLink } from 'lucide-react';
 import { useWeb3ModalAccount, useWeb3Modal, useWeb3ModalProvider } from '@web3modal/ethers/react';
 import { ethers, BrowserProvider, Contract } from 'ethers';
 import { toast } from 'sonner';
 
 const LIAISON_TOKEN = {
-  address: '0xa2f93b5333E82E281764005b88EEfdC9E1dEC921',
+  address: '0xdb49FBb3CE99b2f7aA237BE400200f67B5bd3F52',
   symbol: 'LIA',
   decimals: 18,
 };
@@ -25,12 +25,21 @@ const ERC20_ABI = [
 
 const UNIVERSAL_ROUTER = '0x3fC91A3afd70395Cd496C647d5a6CC9D4B2b7FAD';
 
+interface QuoteResponse {
+  quote?: {
+    output?: {
+      amount: string;
+    };
+    gasFeeUSD?: string;
+  };
+}
+
 export default function CustomSwapWidget() {
   const [amountIn, setAmountIn] = useState('');
   const [amountOut, setAmountOut] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [quoteData, setQuoteData] = useState<any>(null);
+  const [quoteData, setQuoteData] = useState<QuoteResponse | null>(null);
   const [balance, setBalance] = useState('0.00');
   const [allowance, setAllowance] = useState<bigint>(0n);
 
@@ -43,7 +52,7 @@ export default function CustomSwapWidget() {
     const updateStats = async () => {
       if (!address || !walletProvider) return;
       try {
-        const provider = new BrowserProvider(walletProvider as any);
+        const provider = new BrowserProvider(walletProvider as ethers.Eip1193Provider);
         const usdtContract = new Contract(USDT_TOKEN.address, ERC20_ABI, provider);
         
         const bal = await usdtContract.balanceOf(address);
@@ -104,8 +113,9 @@ export default function CustomSwapWidget() {
             setAmountOut(Number(formattedOut).toFixed(4));
         }
 
-      } catch (err: any) {
-        setError(err.message || 'Routing error');
+      } catch (err: unknown) {
+        const errorMsg = err instanceof Error ? err.message : String(err);
+        setError(errorMsg || 'Routing error');
         setAmountOut('');
       } finally {
         setLoading(false);
@@ -133,7 +143,7 @@ export default function CustomSwapWidget() {
     }
 
     try {
-      const provider = new BrowserProvider(walletProvider as any);
+      const provider = new BrowserProvider(walletProvider as ethers.Eip1193Provider);
       const signer = await provider.getSigner();
 
       // Check if Approval is needed
@@ -157,8 +167,9 @@ export default function CustomSwapWidget() {
         error: 'Signature rejected',
       });
       
-    } catch (err: any) {
-      toast.error(err.message || "Execution error");
+    } catch (err: unknown) {
+      const errorMsg = err instanceof Error ? err.message : String(err);
+      toast.error(errorMsg || "Execution error");
     }
   };
 

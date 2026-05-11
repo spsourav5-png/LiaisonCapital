@@ -24,7 +24,6 @@ const Tokenomics = () => {
   // SVG donut
   const r = 80;
   const circ = 2 * Math.PI * r;
-  let offset = 0;
 
   return (
     <div className="relative overflow-hidden">
@@ -85,7 +84,10 @@ const Tokenomics = () => {
                   {TOKENOMICS.map((item, i) => {
                     const dash = (item.pct / 100) * circ;
                     const gap = circ - dash;
-                    const el = (
+                    // Calculate current offset by summing previous percentages
+                    const currentOffset = (TOKENOMICS.slice(0, i).reduce((sum, t) => sum + t.pct, 0) / 100) * circ;
+                    
+                    return (
                       <circle
                         key={i}
                         cx="100" cy="100" r={r}
@@ -93,13 +95,11 @@ const Tokenomics = () => {
                         stroke={item.color}
                         strokeWidth="24"
                         strokeDasharray={`${dash - 4} ${gap + 4}`}
-                        strokeDashoffset={-offset}
+                        strokeDashoffset={-currentOffset}
                         opacity="0.88"
                         strokeLinecap="round"
                       />
                     );
-                    offset += dash;
-                    return el;
                   })}
                 </svg>
 

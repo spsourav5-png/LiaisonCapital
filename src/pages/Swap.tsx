@@ -1,13 +1,13 @@
 import { useState, useEffect, useCallback } from 'react';
 import { motion } from 'framer-motion';
-import { TrendingUp, RefreshCw, ExternalLink, Wallet, BarChart3, ShieldCheck } from 'lucide-react';
+import { TrendingUp, RefreshCw, ExternalLink, Wallet, BarChart3, ShieldCheck, Shield } from 'lucide-react';
 import { ethers } from 'ethers';
 import { useWeb3ModalProvider } from '@web3modal/ethers/react';
 import CustomSwapWidget from '../components/swap/CustomSwapWidget';
 import LiaisonChart from '../components/LiaisonChart';
 
 const LIAISON_TOKEN = {
-  address: '0xa2f93b5333E82E281764005b88EEfdC9E1dEC921',
+  address: '0xdb49FBb3CE99b2f7aA237BE400200f67B5bd3F52',
 };
 
 const USDT_TOKEN = {
@@ -79,6 +79,7 @@ const Swap = () => {
   };
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     fetchPrices();
     const interval = setInterval(fetchPrices, 60000);
     return () => clearInterval(interval);
@@ -152,6 +153,8 @@ const Swap = () => {
                   { label: 'Etherscan', href: `https://etherscan.io/token/${LIAISON_TOKEN.address}` },
                   { label: 'DexScreener', href: `https://dexscreener.com/ethereum/${LIAISON_TOKEN.address}` },
                   { label: 'Uniswap', href: uniswapDirectUrl },
+                  { label: 'Binance', href: `https://web3.binance.com/en-IN/token/eth/${LIAISON_TOKEN.address.toLowerCase()}` },
+                  { label: 'Trust Wallet', href: `https://link.trustwallet.com/browser?url=${encodeURIComponent(window.location.href)}` },
                 ].map(link => (
                   <a key={link.label} href={link.href} target="_blank" rel="noreferrer" 
                     style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '6px', padding: '10px', borderRadius: '12px', background: 'rgba(255,255,255,0.02)', border: '1px solid var(--border)', fontSize: '12px', color: 'var(--text-secondary)', cursor: 'pointer', textDecoration: 'none', fontWeight: 600, transition: 'all 0.2s' }}
@@ -199,6 +202,81 @@ const Swap = () => {
             style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}
           >
             <CustomSwapWidget />
+            
+            {/* Institutional Alternatives Card */}
+            <motion.div 
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.4 }}
+              style={{
+                marginTop: '24px',
+                width: '100%',
+                maxWidth: '440px',
+                background: 'rgba(255, 255, 255, 0.02)',
+                border: '1px solid var(--border-md)',
+                borderRadius: '24px',
+                padding: '24px',
+                backdropFilter: 'blur(10px)',
+                display: 'flex',
+                flexDirection: 'column',
+                gap: '20px'
+              }}
+            >
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                <span style={{ fontSize: '13px', fontWeight: 800, color: 'white', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Institutional Hubs</span>
+                <span style={{ fontSize: '10px', color: 'var(--gold-primary)', fontWeight: 800, background: 'rgba(212, 175, 55, 0.1)', padding: '2px 8px', borderRadius: '6px' }}>OFFICIAL PARTNERS</span>
+              </div>
+
+              {/* Binance Option */}
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                  <div style={{ background: '#F3BA2F', width: '18px', height: '18px', borderRadius: '4px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                    <span style={{ fontSize: '9px', fontWeight: 900, color: 'black' }}>B</span>
+                  </div>
+                  <span style={{ fontSize: '12px', fontWeight: 700, color: 'rgba(255,255,255,0.7)' }}>Binance Web3 Portal</span>
+                </div>
+                <a 
+                  href="https://web3.binance.com/en-IN/token/eth/0xdb49fbb3ce99b2f7aa237be400200f67b5bd3f52"
+                  target="_blank"
+                  rel="noreferrer"
+                  style={{ 
+                    background: '#F3BA2F', color: 'black', padding: '10px', borderRadius: '12px', 
+                    textAlign: 'center', fontWeight: 900, fontSize: '12px', textDecoration: 'none',
+                    textTransform: 'uppercase', letterSpacing: '0.05em', transition: 'all 0.2s'
+                  }}
+                  onMouseEnter={e => (e.currentTarget.style.filter = 'brightness(1.1)')}
+                  onMouseLeave={e => (e.currentTarget.style.filter = 'none')}
+                >
+                  Buy from Binance
+                </a>
+              </div>
+
+              <div style={{ height: '1px', background: 'var(--border)', opacity: 0.5 }} />
+
+              {/* Trust Wallet Option */}
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                  <div style={{ background: '#3375BB', width: '18px', height: '18px', borderRadius: '4px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                    <Shield size={10} color="white" />
+                  </div>
+                  <span style={{ fontSize: '12px', fontWeight: 700, color: 'rgba(255,255,255,0.7)' }}>Trust Wallet Node</span>
+                </div>
+                <a 
+                  href={`https://link.trustwallet.com/browser?url=${encodeURIComponent(window.location.href)}`}
+                  target="_blank"
+                  rel="noreferrer"
+                  style={{ 
+                    background: '#3375BB', color: 'white', padding: '10px', borderRadius: '12px', 
+                    textAlign: 'center', fontWeight: 900, fontSize: '12px', textDecoration: 'none',
+                    textTransform: 'uppercase', letterSpacing: '0.05em', transition: 'all 0.2s'
+                  }}
+                  onMouseEnter={e => (e.currentTarget.style.filter = 'brightness(1.1)')}
+                  onMouseLeave={e => (e.currentTarget.style.filter = 'none')}
+                >
+                  Open in Trust Wallet
+                </a>
+              </div>
+            </motion.div>
             
             <div style={{ marginTop: '24px', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', opacity: 0.6 }}>
               <ShieldCheck size={14} style={{ color: 'var(--gold-primary)' }} />

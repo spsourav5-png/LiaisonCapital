@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import { ethers } from 'ethers';
 
 // ── Contract addresses ────────────────────────────────────────
-const LIAISON_CONTRACT = '0xa2f93b5333E82E281764005b88EEfdC9E1dEC921';
+const LIAISON_CONTRACT = '0xdb49FBb3CE99b2f7aA237BE400200f67B5bd3F52';
 // USDT on Ethereum mainnet
 const USDT_CONTRACT    = '0xdAC17F958D2ee523a2206206994597C13D831ec7';
 

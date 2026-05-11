@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowRight, BookOpen, ShieldCheck, X, CheckCircle2, ChevronRight, Lock, TrendingUp, Globe, BarChart3, Shield } from 'lucide-react';
 import { Link } from 'react-router-dom';
@@ -78,6 +78,16 @@ const ROADMAP_PHASES = [
 
 const Home = () => {
   const [activeModal, setActiveModal] = useState<'whitepaper' | 'tokenomics' | null>(null);
+
+  useEffect(() => {
+    // Handle direct navigation to roadmap via hash or path
+    if (window.location.hash === '#roadmap' || window.location.pathname === '/roadmap') {
+      setTimeout(() => {
+        const el = document.getElementById('roadmap');
+        if (el) el.scrollIntoView({ behavior: 'smooth' });
+      }, 500);
+    }
+  }, []);
 
   return (
     <div style={{ position: 'relative', zIndex: 1 }}>

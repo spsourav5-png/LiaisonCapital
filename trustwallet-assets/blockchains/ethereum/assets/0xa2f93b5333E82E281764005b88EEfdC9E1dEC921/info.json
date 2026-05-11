@@ -1,0 +1,16 @@
+{
+    "name": "Liaison",
+    "website": "https://liaisoncapital.online",
+    "description": "Liaison is a decentralized modular algorithmic network protocol designed for AI-era infrastructure, featuring standardized on-chain audit frameworks and an autonomous agent registry.",
+    "explorer": "https://etherscan.io/token/0xa2f93b5333E82E281764005b88EEfdC9E1dEC921",
+    "type": "ERC20",
+    "symbol": "LIA",
+    "decimals": 18,
+    "status": "active",
+    "id": "0xa2f93b5333E82E281764005b88EEfdC9E1dEC921",
+    "tags": ["defi", "governance"],
+    "links": [
+        { "name": "github", "url": "https://github.com/liaison-protocol" },
+        { "name": "x", "url": "https://x.com/LiaisonCapital" }
+    ]
+}

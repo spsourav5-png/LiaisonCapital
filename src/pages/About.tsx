@@ -19,7 +19,7 @@ const MILESTONES = [
 ];
 
 const About = () => {
-  const CONTRACT = '0xa2f93b5333E82E281764005b88EEfdC9E1dEC921';
+  const CONTRACT = '0xdb49FBb3CE99b2f7aA237BE400200f67B5bd3F52';
 
   return (
     <div className="relative overflow-hidden">

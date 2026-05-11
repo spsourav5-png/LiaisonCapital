@@ -11,8 +11,8 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Toaster } from 'sonner';
 import { Analytics } from '@vercel/analytics/react';
 
-const CONTRACT = '0xa2f93b5333E82E281764005b88EEfdC9E1dEC921';
-const SHORT_CONTRACT = '0xa2f93b53...C921';
+const CONTRACT = '0xdb49FBb3CE99b2f7aA237BE400200f67B5bd3F52';
+const SHORT_CONTRACT = '0xdb49FBb3...3F52';
 
 // ── 404 Page ──────────────────────────────────────────────────
 const NotFound = () => (
@@ -191,6 +191,7 @@ function App() {
               <Route path="/swap"      element={<Swap />} />
               <Route path="/portfolio" element={<Portfolio />} />
               <Route path="/protocol"  element={<Protocol />} />
+              <Route path="/roadmap"   element={<motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}><Home /></motion.div>} />
               <Route path="*"          element={<NotFound />} />
             </Routes>
           </main>
