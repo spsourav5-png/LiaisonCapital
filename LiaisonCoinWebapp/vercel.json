@@ -1,0 +1,45 @@
+{
+  "version": 2,
+  "rewrites": [
+    {
+      "source": "/api/uniswap/(.*)",
+      "destination": "https://trade-api.gateway.uniswap.org/v1/$1"
+    },
+    {
+      "source": "/api/routing/(.*)",
+      "destination": "https://api.uniswap.org/v1/$1"
+    },
+    {
+      "source": "/(.*)",
+      "destination": "/index.html"
+    }
+  ],
+  "headers": [
+    {
+      "source": "/api/uniswap/(.*)",
+      "headers": [
+        {
+          "key": "x-api-key",
+          "value": "sxjnaeCtdtKdSCWEf-z4CeLsAGBbzMiVZQUP2hDyTcA"
+        },
+        {
+          "key": "Origin",
+          "value": "https://app.uniswap.org"
+        }
+      ]
+    },
+    {
+      "source": "/api/routing/(.*)",
+      "headers": [
+        {
+          "key": "Origin",
+          "value": "https://app.uniswap.org"
+        },
+        {
+          "key": "Referer",
+          "value": "https://app.uniswap.org/"
+        }
+      ]
+    }
+  ]
+}

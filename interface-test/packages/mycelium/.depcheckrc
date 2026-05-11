@@ -1,0 +1,10 @@
+ignores: [
+    # Standard ignores
+    "typescript",
+    "@typescript/native-preview",
+    "depcheck",
+    "oxlint",
+
+    # Internal packages / workspaces
+    "@universe/mycelium",
+  ]
