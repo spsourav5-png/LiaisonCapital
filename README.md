@@ -1,73 +1,59 @@
-# React + TypeScript + Vite
+# Liaison Capital
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Liaison Capital is a premium, institutional-grade Web3 application designed for the Liaison (LIA) token ecosystem. It provides a seamless interface for decentralized swapping, portfolio management, and institutional trading features.
 
-Currently, two official plugins are available:
+![Liaison Capital Banner](https://via.placeholder.com/1200x400?text=Liaison+Capital+Institutional+Web3+Portal)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## 💎 Features
 
-## React Compiler
+-   **Advanced Swap Interface**: Powered by Uniswap V3 & V4 with hook-enabled routing for optimal LIA/USDT trading.
+-   **Multi-Wallet Support**: Full integration with Web3Modal, supporting MetaMask, Trust Wallet, and Binance Web3 Wallet.
+-   **Institutional Dashboard**: A high-fidelity "Deep Obsidian and Liquid Gold" interface for monitoring assets and trading activity.
+-   **Direct Purchase**: Seamless integration with Binance Web3 purchase links for easy token acquisition.
+-   **Forex MLM Integration**: Sophisticated referral and profit tracking systems for the Liaison ecosystem.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## 🚀 Tech Stack
 
-## Expanding the ESLint configuration
+-   **Frontend**: React + TypeScript + Vite
+-   **Styling**: Tailwind CSS v4
+-   **Web3**: Ethers.js, Uniswap SDK, @web3modal
+-   **Analytics**: Vercel Analytics
+-   **Animations**: Framer Motion
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## 🛠️ Getting Started
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+### Prerequisites
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+-   Node.js (v18+)
+-   npm or yarn
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+### Installation
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+1.  Clone the repository:
+    ```bash
+    git clone https://github.com/spsourav5-png/LiaisonCapital.git
+    cd LiaisonCapital
+    ```
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+2.  Install dependencies:
+    ```bash
+    npm install
+    ```
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+3.  Create a `.env` file in the root directory and add your API keys:
+    ```env
+    VITE_UNISWAP_API_KEY=your_api_key_here
+    ```
+
+4.  Start the development server:
+    ```bash
+    npm run dev
+    ```
+
+## 📜 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+---
+
+*Built with precision by the Liaison Capital Team.*
