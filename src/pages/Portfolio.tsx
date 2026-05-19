@@ -164,21 +164,24 @@ const Portfolio = () => {
         { icon: LIAISON_ICON, symbol: 'LIAISON',  name: 'Liaison',    balance: liaisonBalance, price: liaisonPrice },
         { icon: USDT_ICON,    symbol: 'USDT',     name: 'Tether USD', balance: usdtBalance,    price: 1 },
       ]);
-    } catch (err: any) {
-      console.error('Balance fetch error:', err);
-      setError(err?.message?.slice(0, 120) ?? 'Could not fetch balances. Make sure you are on Ethereum Mainnet.');
+    } catch (err: unknown) {
+      const error = err as Error;
+      console.error('Balance fetch error:', error);
+      setError(error.message?.slice(0, 120) ?? 'Could not fetch balances. Make sure you are on Ethereum Mainnet.');
     } finally {
       setLoading(false);
     }
   }, [walletProvider]);
 
-  // Auto-load on connect
   useEffect(() => {
-    if (isConnected && address) {
-      loadBalances(address);
-    } else {
-      setTokens([]);
-    }
+    const timer = setTimeout(() => {
+      if (isConnected && address) {
+        void loadBalances(address);
+      } else {
+        setTokens([]);
+      }
+    }, 0);
+    return () => clearTimeout(timer);
   }, [isConnected, address, loadBalances]);
 
   const handleRefresh = () => {

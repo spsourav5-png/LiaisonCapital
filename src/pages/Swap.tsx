@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 import { motion } from 'framer-motion';
-import { TrendingUp, RefreshCw, ExternalLink, Wallet, BarChart3, ShieldCheck, Shield } from 'lucide-react';
+import { RefreshCw, ExternalLink, Wallet, BarChart3, ShieldCheck, Shield } from 'lucide-react';
 import { ethers } from 'ethers';
 import { useWeb3ModalProvider } from '@web3modal/ethers/react';
 import CustomSwapWidget from '../components/swap/CustomSwapWidget';
@@ -23,33 +23,36 @@ const Swap = () => {
   const fetchPrices = useCallback(async () => {
     setPriceLoading(true);
     try {
-      const p = new ethers.JsonRpcProvider("https://ethereum-rpc.publicnode.com");
-      const poolAddress = "0x91D2cC80F8A26587D1858b25DD580531260D600B";
-      const poolAbi = ["function slot0() view returns (uint160 sqrtPriceX96, int24 tick, uint16 observationIndex, uint16 observationCardinality, uint16 observationCardinalityNext, uint8 feeProtocol, bool unlocked)"];
-      const poolContract = new ethers.Contract(poolAddress, poolAbi, p);
+      const queryParams = new URLSearchParams({
+        fromChainID: '1',
+        toChainID: '1',
+        token0: LIAISON_TOKEN.address,
+        token1: USDT_TOKEN.address,
+        amountIn: ethers.parseUnits('1', 18).toString(),
+        to: '0x0000000000000000000000000000000000000000',
+        issuer: '0x0000000000000000000000000000000000000000',
+        channel: 'default',
+      });
+
+      const res = await fetch(`/api/transit/v3/transit/swap?${queryParams.toString()}`);
+      if (!res.ok) throw new Error('Transit quote failed');
+      const json = await res.json();
       
-      const slot0 = await poolContract.slot0();
-      const sqrtPriceX96 = slot0[0];
-      
-      const price = (Number(sqrtPriceX96) / 2**96) ** 2 * 10**(18 - 6);
-      
-      if (price > 0) {
-        setLiaisonPrice(price);
+      if (json.data && json.data.amountOut) {
+        const outAmount = ethers.formatUnits(json.data.amountOut, 6); // USDT is 6 decimals
+        setLiaisonPrice(Number(outAmount));
+      } else {
+        throw new Error(json.msg || 'Invalid response from Transit API');
       }
-    } catch (err) {
-      console.error('Failed to fetch price from Uniswap pool:', err);
+    } catch (err: unknown) {
+      console.error('Failed to fetch price from Transit Finance:', err);
     }
     setPriceLoading(false);
   }, []);
 
   const addTokenToWallet = async () => {
     try {
-      let providerToUse: any = null;
-      if (typeof window !== 'undefined' && (window as any).ethereum) {
-        providerToUse = (window as any).ethereum;
-      } else if (walletProvider) {
-        providerToUse = walletProvider;
-      }
+      const providerToUse = (window as unknown as { ethereum?: ethers.Eip1193Provider }).ethereum || walletProvider;
       
       if (!providerToUse || typeof providerToUse.request !== 'function') {
         alert("No compatible Web3 wallet detected. Please connect your wallet first.");
@@ -68,7 +71,8 @@ const Swap = () => {
         },
       });
       
-    } catch (error: any) {
+    } catch (err: unknown) {
+      const error = err as { code?: number, message?: string };
       console.error('Failed to add token to wallet', error);
       if (error?.code === 4001) {
         return;

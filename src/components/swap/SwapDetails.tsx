@@ -3,7 +3,13 @@ import { Info, Zap, ChevronDown, ChevronUp } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 interface SwapDetailsProps {
-  quote: any;
+  quote: {
+    routing?: string;
+    amountOut?: string;
+    quote?: {
+      gasFeeUSD?: string;
+    };
+  } | null;
   sellAmt: string;
   buyAmt: string;
   sellSymbol: string;

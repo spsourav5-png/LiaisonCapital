@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ArrowRight, BookOpen, ShieldCheck, X, CheckCircle2, ChevronRight, Lock, TrendingUp, Globe, BarChart3, Shield } from 'lucide-react';
+import { ArrowRight, BookOpen, ShieldCheck, X, CheckCircle2, ChevronRight, Lock, Globe, BarChart3, Shield } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import CryptoTicker from '../components/CryptoTicker';
 

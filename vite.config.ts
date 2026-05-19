@@ -45,6 +45,11 @@ export default defineConfig({
           'Referer': 'https://app.uniswap.org/'
         }
       },
+      '/api/transit': {
+        target: 'https://aggserver.transit.finance',
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/api\/transit/, ''),
+      }
     },
   },
 })

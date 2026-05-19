@@ -1,5 +1,6 @@
 import { Buffer } from 'buffer'
 globalThis.Buffer = Buffer
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 ;(globalThis as any).Browser = { T: () => {} };
 
 import { StrictMode } from 'react'

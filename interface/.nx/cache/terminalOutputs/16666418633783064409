@@ -1,0 +1,21 @@
+[2m> [22mopenapi --input ./src/clients/trading/api.json --output ./src/clients/trading/__generated__ --useOptions --exportServices true --exportModels true
+
+{
+  stack: [32m'ResolverError: Error opening file "C:\\Users\\SOURAV PAL\\OneDrive\\Desktop\\WEBapp\\interface\\node_modules\\@apidevtools\\json-schema-ref-parser\\dist\\src\\clients\\trading\\api.json" \n'[39m +
+    [32m"ENOENT: no such file or directory, open 'C:\\Users\\SOURAV PAL\\OneDrive\\Desktop\\WEBapp\\interface\\node_modules\\@apidevtools\\json-schema-ref-parser\\dist\\src\\clients\\trading\\api.json'\n"[39m +
+    [32m'    at Object.<anonymous> (C:\\Users\\SOURAV PAL\\OneDrive\\Desktop\\WEBapp\\interface\\node_modules\\@apidevtools\\json-schema-ref-parser\\dist\\lib\\resolvers\\file.js:72:23)\n'[39m +
+    [32m'    at Generator.throw (<anonymous>)\n'[39m +
+    [32m'    at rejected (C:\\Users\\SOURAV PAL\\OneDrive\\Desktop\\WEBapp\\interface\\node_modules\\@apidevtools\\json-schema-ref-parser\\dist\\lib\\resolvers\\file.js:29:65)'[39m,
+  code: [32m'ERESOLVER'[39m,
+  name: [32m'ResolverError'[39m,
+  message: [32m'Error opening file "C:\\Users\\SOURAV PAL\\OneDrive\\Desktop\\WEBapp\\interface\\node_modules\\@apidevtools\\json-schema-ref-parser\\dist\\src\\clients\\trading\\api.json" \n'[39m +
+    [32m"ENOENT: no such file or directory, open 'C:\\Users\\SOURAV PAL\\OneDrive\\Desktop\\WEBapp\\interface\\node_modules\\@apidevtools\\json-schema-ref-parser\\dist\\src\\clients\\trading\\api.json'"[39m,
+  source: [32m'C:\\Users\\SOURAV PAL\\OneDrive\\Desktop\\WEBapp\\interface\\node_modules\\@apidevtools\\json-schema-ref-parser\\dist\\src\\clients\\trading\\api.json'[39m,
+  path: [1mnull[22m,
+  toJSON: [36m[Function: toJSON][39m,
+  ioErrorCode: [32m'ENOENT'[39m,
+  footprint: [32m'null+C:\\Users\\SOURAV PAL\\OneDrive\\Desktop\\WEBapp\\interface\\node_modules\\@apidevtools\\json-schema-ref-parser\\dist\\src\\clients\\trading\\api.json+ERESOLVER+Error opening file "C:\\Users\\SOURAV PAL\\OneDrive\\Desktop\\WEBapp\\interface\\node_modules\\@apidevtools\\json-schema-ref-parser\\dist\\src\\clients\\trading\\api.json" \n'[39m +
+    [32m"ENOENT: no such file or directory, open 'C:\\Users\\SOURAV PAL\\OneDrive\\Desktop\\WEBapp\\interface\\node_modules\\@apidevtools\\json-schema-ref-parser\\dist\\src\\clients\\trading\\api.json'"[39m,
+  toString: [36m[Function: toString][39m
+}
+Warning: command "openapi --input ./src/clients/trading/api.json --output ./src/clients/trading/__generated__ --useOptions --exportServices true --exportModels true" exited with non-zero status code

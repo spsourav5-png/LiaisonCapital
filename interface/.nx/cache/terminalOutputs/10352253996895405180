@@ -1,0 +1,3 @@
+[2m> [22mtypechain --target ethers-v5 --out-dir src/abis/types/v3 "../../node_modules/@uniswap/**/artifacts/contracts/**/*[!dbg].json"
+
+Successfully generated 203 typings!

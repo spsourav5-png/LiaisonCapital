@@ -7,7 +7,7 @@ import Swap from './pages/Swap';
 import Portfolio from './pages/Portfolio';
 import Protocol from './pages/Protocol';
 import { Web3ModalProvider } from './Web3ModalProvider';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { Toaster } from 'sonner';
 import { Analytics } from '@vercel/analytics/react';
 

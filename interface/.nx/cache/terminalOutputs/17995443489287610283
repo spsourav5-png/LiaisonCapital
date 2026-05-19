@@ -1,0 +1,4 @@
+[2m> [22mbun ./scripts/generate-graphql-types.ts && bun ./scripts/fixGraphQLApiTypes.mts
+
+✓ GraphQL types generated
+✓ GraphQL codegen post-processing complete

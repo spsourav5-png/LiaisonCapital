@@ -24,7 +24,7 @@ const CryptoTicker = () => {
         
         if (Array.isArray(data)) {
           const newPrices: Record<string, number> = {};
-          data.forEach((item: any) => {
+          (data as { symbol: string, price: string }[]).forEach((item) => {
             const token = TOKENS.find(t => t.pair === item.symbol);
             if (token) {
               newPrices[token.symbol] = parseFloat(item.price);
@@ -32,8 +32,8 @@ const CryptoTicker = () => {
           });
           setPrices(newPrices);
         }
-      } catch (err) {
-        console.error('Failed to fetch Binance prices', err);
+      } catch (err: unknown) {
+        console.error('Ticker fetch error:', err);
       }
     };
 

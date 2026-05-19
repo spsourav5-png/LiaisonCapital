@@ -1,0 +1,3 @@
+[2m> [22mtypechain --target ethers-v5 --out-dir src/abis/types "./src/abis/**/*.json"
+
+Successfully generated 28 typings!
