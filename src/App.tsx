@@ -6,6 +6,7 @@ import Home from './pages/Home';
 import Swap from './pages/Swap';
 import Portfolio from './pages/Portfolio';
 import Protocol from './pages/Protocol';
+import NFTPage from './pages/NFTPage';
 import { Web3ModalProvider } from './Web3ModalProvider';
 import { motion } from 'framer-motion';
 import { Toaster } from 'sonner';
@@ -190,6 +191,7 @@ function App() {
               <Route path="/"          element={<Home />} />
               <Route path="/swap"      element={<Swap />} />
               <Route path="/portfolio" element={<Portfolio />} />
+              <Route path="/nfts"      element={<NFTPage />} />
               <Route path="/protocol"  element={<Protocol />} />
               <Route path="/roadmap"   element={<motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}><Home /></motion.div>} />
               <Route path="*"          element={<NotFound />} />

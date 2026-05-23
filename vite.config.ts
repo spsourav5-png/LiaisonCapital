@@ -49,6 +49,14 @@ export default defineConfig({
         target: 'https://aggserver.transit.finance',
         changeOrigin: true,
         rewrite: (path) => path.replace(/^\/api\/transit/, ''),
+      },
+      '/api/opensea': {
+        target: 'https://api.opensea.io',
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/api\/opensea/, ''),
+        headers: {
+          'Accept': 'application/json'
+        }
       }
     },
   },

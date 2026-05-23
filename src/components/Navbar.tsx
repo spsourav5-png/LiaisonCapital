@@ -8,6 +8,7 @@ import { useWeb3Modal, useWeb3ModalAccount } from '@web3modal/ethers/react';
 const NAV_LINKS = [
   { label: 'Home',      path: '/' },
   { label: 'Swap',      path: '/swap' },
+  { label: 'NFTs',      path: '/nfts' },
   { label: 'Portfolio', path: '/portfolio' },
   { label: 'Protocol',  path: '/protocol' },
 ];
