@@ -122,11 +122,25 @@ const NFTPage = () => {
       const ethersProvider = new ethers.BrowserProvider(walletProvider);
       const signer = await ethersProvider.getSigner();
 
-      // Extract price float (e.g., "1.50 ETH" -> 1.5)
-      let ethAmountStr = '0.05'; // default test amount for safety
-      const cleanPrice = nft.price.replace(' ETH', '').trim();
-      if (cleanPrice && !isNaN(parseFloat(cleanPrice)) && parseFloat(cleanPrice) > 0) {
-        ethAmountStr = cleanPrice;
+      // Extract numeric part (e.g., "200000.00 USDC" -> 200000.00, "1.50 ETH" -> 1.50)
+      let numericPrice = 0.05;
+      const match = nft.price.match(/[0-9.]+/);
+      if (match) {
+        numericPrice = parseFloat(match[0]);
+      }
+
+      // Check if price is in USDC or is exceptionally large.
+      // Cap at 0.01 ETH for mainnet safety in case of huge USDC/ETH values!
+      let ethAmountStr = '0.01';
+      const isUSDC = nft.price.toUpperCase().includes('USDC');
+      
+      if (isUSDC || numericPrice > 5) {
+        ethAmountStr = '0.01';
+        toast.info('Mainnet Protection Enabled', {
+          description: `Asset listed in USDC or is large (${nft.price}). Capped direct test payment at ${ethAmountStr} ETH for wallet safety.`
+        });
+      } else {
+        ethAmountStr = numericPrice.toString();
       }
       
       const parsedWei = ethers.parseEther(ethAmountStr);
