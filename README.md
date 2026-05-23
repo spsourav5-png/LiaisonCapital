@@ -7,6 +7,8 @@ Liaison Capital is a premium, institutional-grade Web3 application designed for 
 ## 💎 Features
 
 -   **Advanced Swap Interface**: Powered by Uniswap V3 & V4 with hook-enabled routing for optimal LIA/USDT trading.
+-   **Genesis NFT Access Portal**: Fully integrated with the live OpenSea API to display and transact distinct utility-driven assets (**Liaison Genesis** and **Liaison Key**).
+-   **On-Chain Direct checkout (Web3)**: Direct-to-smart-contract buying mechanisms supporting decentralized wallet signatures (MetaMask, Trust Wallet).
 -   **Multi-Wallet Support**: Full integration with Web3Modal, supporting MetaMask, Trust Wallet, and Binance Web3 Wallet.
 -   **Institutional Dashboard**: A high-fidelity "Deep Obsidian and Liquid Gold" interface for monitoring assets and trading activity.
 -   **Direct Purchase**: Seamless integration with Binance Web3 purchase links for easy token acquisition.
