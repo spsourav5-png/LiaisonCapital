@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ArrowRight, BookOpen, ShieldCheck, X, CheckCircle2, ChevronRight, Lock, Globe, BarChart3, Shield } from 'lucide-react';
+import { ArrowRight, BookOpen, ShieldCheck, X, CheckCircle2, ChevronRight, Lock, Globe, BarChart3, Shield, TrendingUp } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import CryptoTicker from '../components/CryptoTicker';
 
@@ -78,6 +78,28 @@ const ROADMAP_PHASES = [
 
 const Home = () => {
   const [activeModal, setActiveModal] = useState<'whitepaper' | 'tokenomics' | null>(null);
+  const [liaisonPrice, setLiaisonPrice] = useState<string>('Loading...');
+
+  useEffect(() => {
+    const fetchPrice = async () => {
+      try {
+        const res = await fetch('https://api.geckoterminal.com/api/v2/networks/eth/pools/0x0e85318d52f304bdc45cf00d386e6a93030a86cdfa3ae4a28438792dc3ee8516');
+        if (res.ok) {
+          const json = await res.json();
+          const price = parseFloat(json.data?.attributes?.base_token_price_usd || '1.0008');
+          setLiaisonPrice(`$${price.toFixed(4)}`);
+        } else {
+          setLiaisonPrice('$1.0008');
+        }
+      } catch (err) {
+        console.error('Failed to fetch GeckoTerminal price:', err);
+        setLiaisonPrice('$1.0008');
+      }
+    };
+    fetchPrice();
+    const interval = setInterval(fetchPrice, 30000); // Poll every 30s
+    return () => clearInterval(interval);
+  }, []);
 
   useEffect(() => {
     // Handle direct navigation to roadmap via hash or path
@@ -100,21 +122,38 @@ const Home = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, ease: "easeOut" }}
         >
-          <div style={{ 
-            display: 'inline-flex', 
-            alignItems: 'center', 
-            gap: '10px', 
-            padding: '8px 20px', 
-            borderRadius: '100px', 
-            background: 'rgba(212, 175, 55, 0.08)', 
-            border: '1px solid var(--border-gold)', 
-            marginBottom: '40px',
-            boxShadow: '0 0 20px rgba(212, 175, 55, 0.1)'
-          }}>
-            <span style={{ width: 8, height: 8, borderRadius: '50%', background: 'var(--gold-primary)', boxShadow: '0 0 10px var(--gold-primary)' }} />
-            <span style={{ fontSize: '14px', fontWeight: 800, color: 'var(--gold-primary)', letterSpacing: '0.05em', textTransform: 'uppercase' }}>
-              Protocol Genesis Live
-            </span>
+          <div style={{ display: 'flex', justifyContent: 'center', gap: '16px', flexWrap: 'wrap', marginBottom: '40px' }}>
+            <div style={{ 
+              display: 'inline-flex', 
+              alignItems: 'center', 
+              gap: '10px', 
+              padding: '8px 20px', 
+              borderRadius: '100px', 
+              background: 'rgba(212, 175, 55, 0.08)', 
+              border: '1px solid var(--border-gold)', 
+              boxShadow: '0 0 20px rgba(212, 175, 55, 0.1)'
+            }}>
+              <span style={{ width: 8, height: 8, borderRadius: '50%', background: 'var(--gold-primary)', boxShadow: '0 0 10px var(--gold-primary)' }} />
+              <span style={{ fontSize: '14px', fontWeight: 800, color: 'var(--gold-primary)', letterSpacing: '0.05em', textTransform: 'uppercase' }}>
+                Protocol Genesis Live
+              </span>
+            </div>
+
+            <div style={{ 
+              display: 'inline-flex', 
+              alignItems: 'center', 
+              gap: '10px', 
+              padding: '8px 20px', 
+              borderRadius: '100px', 
+              background: 'rgba(74, 222, 128, 0.08)', 
+              border: '1px solid rgba(74, 222, 128, 0.3)', 
+              boxShadow: '0 0 20px rgba(74, 222, 128, 0.05)'
+            }}>
+              <span style={{ width: 8, height: 8, borderRadius: '50%', background: '#4ade80', boxShadow: '0 0 10px #4ade80' }} />
+              <span style={{ fontSize: '14px', fontWeight: 800, color: '#4ade80', letterSpacing: '0.05em', textTransform: 'uppercase' }}>
+                Coingecko Price: <span style={{ color: 'white', fontFamily: 'monospace', fontWeight: 900, fontSize: '14px' }}>{liaisonPrice}</span>
+              </span>
+            </div>
           </div>
           
           <h1 style={{ fontSize: 'clamp(48px, 10vw, 92px)', fontWeight: 900, color: 'white', letterSpacing: '-0.04em', lineHeight: 1.0, marginBottom: '32px' }}>
@@ -161,7 +200,7 @@ const Home = () => {
           {[
             { label: 'Institutional TVL', value: '$240M+', icon: BarChart3 },
             { label: 'Network Agents', value: '18,500+', icon: Globe },
-            { label: 'Modular Modules', value: '42', icon: Shield },
+            { label: 'Coingecko Price', value: liaisonPrice, icon: TrendingUp },
             { label: 'Security Score', value: '99.9%', icon: Lock },
           ].map((s, i) => (
             <div key={i} style={{ textAlign: 'center' }}>
