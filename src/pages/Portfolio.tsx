@@ -81,6 +81,11 @@ const fetchEthUsdPrice = async (): Promise<number> => {
   try {
     const res = await fetch(
       'https://api.coingecko.com/api/v3/simple/price?ids=ethereum&vs_currencies=usd',
+      {
+        headers: {
+          'x-cg-demo-api-key': 'CG-NBEWsq6fHuQNma3sVt49Kz78'
+        }
+      }
     );
     const data = await res.json();
     return data?.ethereum?.usd ?? 3240;
