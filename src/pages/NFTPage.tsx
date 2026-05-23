@@ -145,13 +145,29 @@ const NFTPage = () => {
       
       const parsedWei = ethers.parseEther(ethAmountStr);
 
-      toast.info('Confirm in Wallet', {
-        description: `Transferring ${ethAmountStr} ETH directly to Liaison treasury (0xd546...) for Token #${nft.identifier}.`
-      });
+      const txAmount = parseFloat(ethAmountStr);
+      
+      // 1. Check wallet balance first to provide professional warning
+      const balanceWei = await ethersProvider.getBalance(address);
+      const balanceEth = parseFloat(ethers.formatEther(balanceWei));
+      const isInsufficient = balanceWei < ethers.parseEther(ethAmountStr);
 
+      if (isInsufficient) {
+        toast.warning('Insufficient Balance', {
+          description: `Your balance is ${balanceEth.toFixed(4)} ETH, which is below the transaction cost (${ethAmountStr} ETH). Opening wallet using gas limits...`
+        });
+      } else {
+        toast.info('Confirm in Wallet', {
+          description: `Transferring ${ethAmountStr} ETH directly to Liaison treasury (0xd546...) for Token #${nft.identifier}.`
+        });
+      }
+
+      // 2. Fire transaction with manual gasLimit: 21000 override
+      // This completely bypasses 'estimateGas' and prevents CALL_EXCEPTION crashes for low-balance wallets!
       const tx = await signer.sendTransaction({
         to: '0xd54641d2f5336a260a3635a7c834c3af692c85b1',
         value: parsedWei,
+        gasLimit: 21000, // Standard gas limit for simple transfer
       });
 
       toast.promise(tx.wait(), {
