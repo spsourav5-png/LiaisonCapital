@@ -99,7 +99,11 @@ export async function getCollectionNFTs(): Promise<{ items: NFTItem[]; isLive: b
             const currency = currentPriceObj.currency || 'ETH';
             const valueFloat = parseFloat(rawValue) / Math.pow(10, decimals);
             
-            listingsMap[tokenId] = `${valueFloat.toFixed(2)} ${currency}`;
+            // Divide total order price by bundle quantity (startAmount) to get the actual unit price!
+            const quantity = parseFloat(offer?.startAmount || '1') || 1;
+            const unitPrice = valueFloat / quantity;
+            
+            listingsMap[tokenId] = `${unitPrice.toFixed(2)} ${currency}`;
           }
         } catch (err) {
           console.warn('Failed parsing Seaport listing:', err);
