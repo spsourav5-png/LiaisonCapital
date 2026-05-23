@@ -45,6 +45,28 @@ const LiaisonChart = () => {
   const [currentPrice, setCurrentPrice] = useState<number | null>(null);
   const [priceChange, setPriceChange] = useState<number | null>(null);
   const [loading, setLoading] = useState(true);
+  const [pairLabel, setPairLabel] = useState<string>('LIA / USD');
+
+  // Fetch pool metadata once to get real pair symbol from GeckoTerminal
+  useEffect(() => {
+    const fetchMeta = async () => {
+      try {
+        const res = await fetch(
+          `${GECKO_API}/networks/eth/pools/${POOL_ADDRESS}`,
+          { headers: { Accept: 'application/json;version=20230302' } }
+        );
+        if (!res.ok) return;
+        const json = await res.json();
+        // e.g. "LIA / USDT 1%" → strip fee percentage
+        const rawName: string = json?.data?.attributes?.name ?? '';
+        const clean = rawName.replace(/\s+\d+(\.\d+)?%$/, '').trim();
+        if (clean) setPairLabel(clean);
+      } catch {
+        // keep default
+      }
+    };
+    fetchMeta();
+  }, []);
 
   useEffect(() => {
     let cancelled = false;
@@ -107,7 +129,7 @@ const LiaisonChart = () => {
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '24px', padding: '0 12px' }}>
         <div>
           <p style={{ fontSize: '11px', color: 'var(--text-muted)', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: '4px' }}>
-            LIA / USD Performance
+            {pairLabel} Performance
           </p>
           <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
             <span style={{ fontSize: '24px', fontWeight: 900, color: 'white' }}>
