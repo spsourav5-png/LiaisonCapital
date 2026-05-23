@@ -11,6 +11,7 @@ import { Web3ModalProvider } from './Web3ModalProvider';
 import { motion } from 'framer-motion';
 import { Toaster } from 'sonner';
 import { Analytics } from '@vercel/analytics/react';
+import { SpeedInsights } from '@vercel/speed-insights/react';
 
 const CONTRACT = '0xdb49FBb3CE99b2f7aA237BE400200f67B5bd3F52';
 const SHORT_CONTRACT = '0xdb49FBb3...3F52';
@@ -168,6 +169,7 @@ function App() {
   return (
     <Web3ModalProvider>
       <Analytics />
+      <SpeedInsights />
       <Toaster 
         theme="dark" 
         position="top-right" 
