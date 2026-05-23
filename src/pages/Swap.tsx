@@ -79,7 +79,8 @@ const Swap = () => {
     return () => clearInterval(interval);
   }, [fetchPrices]);
 
-  const uniswapDirectUrl = `https://app.uniswap.org/swap?chain=mainnet&inputCurrency=${USDT_TOKEN.address}&outputCurrency=${LIAISON_TOKEN.address}`;
+  const USDT_ADDRESS = '0xdAC17F958D2ee523a2206206994597C13D831ec7';
+  const uniswapDirectUrl = `https://app.uniswap.org/swap?chain=mainnet&inputCurrency=${USDT_ADDRESS}&outputCurrency=${LIAISON_TOKEN.address}`;
 
   return (
     <div style={{ position: 'relative', zIndex: 1, minHeight: 'calc(100vh - 72px)', padding: '60px 24px' }}>
