@@ -202,31 +202,31 @@ const NFTPage = () => {
               {stats?.description || 'The official institutional non-fungible token collection of the Liaison Protocol.'}
             </p>
             <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap', alignItems: 'center' }}>
-              {/* API Live / fallback badge */}
+              {/* API Live status badge */}
               <div style={{
                 display: 'inline-flex',
                 alignItems: 'center',
                 gap: '8px',
                 padding: '6px 14px',
                 borderRadius: '999px',
-                background: isLiveApi ? 'rgba(16, 185, 129, 0.1)' : 'rgba(212, 175, 55, 0.08)',
-                border: `1px solid ${isLiveApi ? 'rgba(16, 185, 129, 0.3)' : 'var(--border-gold)'}`,
+                background: isLiveApi ? 'rgba(16, 185, 129, 0.1)' : 'rgba(239, 68, 68, 0.1)',
+                border: `1px solid ${isLiveApi ? 'rgba(16, 185, 129, 0.3)' : 'rgba(239, 68, 68, 0.3)'}`,
                 fontSize: '12px',
                 fontWeight: 700,
-                color: isLiveApi ? '#10b981' : 'var(--gold-primary)',
+                color: isLiveApi ? '#10b981' : '#ef4444',
               }}>
                 <span style={{ 
                   width: '8px', 
                   height: '8px', 
                   borderRadius: '50%', 
-                  backgroundColor: isLiveApi ? '#10b981' : 'var(--gold-primary)',
-                  boxShadow: isLiveApi ? '0 0 8px #10b981' : '0 0 8px var(--gold-primary)'
+                  backgroundColor: isLiveApi ? '#10b981' : '#ef4444',
+                  boxShadow: isLiveApi ? '0 0 8px #10b981' : '0 0 8px #ef4444'
                 }} />
-                {isLiveApi ? 'OpenSea API Live' : 'OpenSea V2 API (Simulated Fallback)'}
+                {isLiveApi ? 'OpenSea API Live' : 'OpenSea Connection Offline'}
               </div>
 
               <a 
-                href={stats?.openseaUrl} 
+                href={stats?.openseaUrl || 'https://opensea.io'} 
                 target="_blank" 
                 rel="noreferrer" 
                 className="btn-ghost" 
@@ -241,10 +241,26 @@ const NFTPage = () => {
           {/* ── 3. Stats Board ──────────────────────────────────── */}
           <div style={{ display: 'grid', gridTemplateColumns: 'gridTemplateColumns: repeat(2, 1fr)', gridTemplateColumns: 'repeat(auto-fit, minmax(130px, 1fr))', gap: '16px' }}>
             {[
-              { label: 'FLOOR PRICE', value: `${stats?.stats.floorPrice.toFixed(2)} ETH`, desc: '~$720.00 USD' },
-              { label: 'TOTAL VOLUME', value: `${stats?.stats.totalVolume.toLocaleString()} ETH`, desc: 'Secondary volume' },
-              { label: 'OWNERS', value: stats?.stats.owners.toString(), desc: 'Unique addresses' },
-              { label: 'ITEMS', value: stats?.stats.itemsCount.toLocaleString(), desc: 'Total supply' },
+              { 
+                label: 'FLOOR PRICE', 
+                value: stats?.stats?.floorPrice !== undefined ? `${stats.stats.floorPrice.toFixed(2)} ETH` : 'N/A', 
+                desc: stats?.stats?.floorPrice ? `~$${(stats.stats.floorPrice * 3000).toFixed(2)} USD` : 'No active orders' 
+              },
+              { 
+                label: 'TOTAL VOLUME', 
+                value: stats?.stats?.totalVolume !== undefined ? `${stats.stats.totalVolume.toLocaleString()} ETH` : 'N/A', 
+                desc: 'Secondary volume' 
+              },
+              { 
+                label: 'OWNERS', 
+                value: stats?.stats?.owners !== undefined ? stats.stats.owners.toString() : 'N/A', 
+                desc: 'Unique items' 
+              },
+              { 
+                label: 'ITEMS', 
+                value: stats?.stats?.itemsCount !== undefined ? stats.stats.itemsCount.toLocaleString() : 'N/A', 
+                desc: 'Total supply' 
+              },
             ].map((s, idx) => (
               <div 
                 key={idx} 
