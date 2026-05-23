@@ -177,16 +177,31 @@ const Swap = () => {
 
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '8px', marginBottom: '20px' }}>
                 {[
-                  { label: 'Etherscan', href: `https://etherscan.io/token/${LIAISON_TOKEN.address}` },
-                  { label: 'DexScreener', href: `https://dexscreener.com/ethereum/${LIAISON_TOKEN.address}` },
-                  { label: 'Uniswap', href: uniswapDirectUrl },
-                  { label: 'Binance', href: `https://web3.binance.com/en-IN/token/eth/${LIAISON_TOKEN.address.toLowerCase()}` },
-                  { label: 'Trust Wallet', href: `https://link.trustwallet.com/browser?url=${encodeURIComponent(window.location.href)}` },
+                  { label: 'Etherscan', href: `https://etherscan.io/token/${LIAISON_TOKEN.address}`, gecko: false },
+                  { label: 'DexScreener', href: `https://dexscreener.com/ethereum/${LIAISON_TOKEN.address}`, gecko: false },
+                  { label: 'Uniswap', href: uniswapDirectUrl, gecko: false },
+                  { label: 'Binance', href: `https://web3.binance.com/en-IN/token/eth/${LIAISON_TOKEN.address.toLowerCase()}`, gecko: false },
+                  { label: 'Trust Wallet', href: `https://link.trustwallet.com/browser?url=${encodeURIComponent(window.location.href)}`, gecko: false },
+                  { label: '🦎 GeckoTerminal', href: GECKO_TERMINAL_URL, gecko: true },
                 ].map(link => (
-                  <a key={link.label} href={link.href} target="_blank" rel="noreferrer" 
-                    style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '6px', padding: '10px', borderRadius: '12px', background: 'rgba(255,255,255,0.02)', border: '1px solid var(--border)', fontSize: '12px', color: 'var(--text-secondary)', cursor: 'pointer', textDecoration: 'none', fontWeight: 600, transition: 'all 0.2s' }}
-                    onMouseEnter={e => (e.currentTarget.style.borderColor = 'var(--gold-primary)')}
-                    onMouseLeave={e => (e.currentTarget.style.borderColor = 'var(--border)')}
+                  <a key={link.label} href={link.href} target="_blank" rel="noreferrer"
+                    style={{
+                      display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '6px',
+                      padding: '10px', borderRadius: '12px',
+                      background: link.gecko ? 'rgba(0, 197, 122, 0.05)' : 'rgba(255,255,255,0.02)',
+                      border: link.gecko ? '1px solid rgba(0, 197, 122, 0.3)' : '1px solid var(--border)',
+                      fontSize: '12px',
+                      color: link.gecko ? '#00c57a' : 'var(--text-secondary)',
+                      cursor: 'pointer', textDecoration: 'none', fontWeight: 600, transition: 'all 0.2s'
+                    }}
+                    onMouseEnter={e => {
+                      e.currentTarget.style.borderColor = link.gecko ? '#00c57a' : 'var(--gold-primary)';
+                      if (link.gecko) e.currentTarget.style.background = 'rgba(0, 197, 122, 0.12)';
+                    }}
+                    onMouseLeave={e => {
+                      e.currentTarget.style.borderColor = link.gecko ? 'rgba(0, 197, 122, 0.3)' : 'var(--border)';
+                      if (link.gecko) e.currentTarget.style.background = 'rgba(0, 197, 122, 0.05)';
+                    }}
                   >
                     {link.label} <ExternalLink size={12} />
                   </a>
