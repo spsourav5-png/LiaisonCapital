@@ -197,7 +197,7 @@ export async function getCollectionNFTs(): Promise<{ items: NFTItem[]; isLive: b
 
       return {
         identifier: nft.identifier || String(index + 1),
-        name: nft.name || (nft.identifier === '1' ? 'Liaison Genesis' : 'Liaison Key'),
+        name: nft.identifier === '1' ? 'Liaison Genesis' : nft.identifier === '3' ? 'Liaison Key' : (nft.name || 'Liaison Protocol NFT'),
         description: nft.description || 'Verified Liaison algorithmic protocol digital utility key.',
         image_url: nft.image_url || (nft.identifier === '1' 
           ? 'https://i2c.seadn.io/ethereum/0xe63e055f8d1fd6fdffb1e874e3aeff2c9964fd77/12e7087168c1a14c38519a9ecba3b1/2f12e7087168c1a14c38519a9ecba3b1.png'
