@@ -1,51 +1,39 @@
 import { useState, useEffect, useCallback } from 'react';
 import { motion } from 'framer-motion';
 import { RefreshCw, ExternalLink, Wallet, BarChart3, ShieldCheck, Shield } from 'lucide-react';
-import { ethers } from 'ethers';
 import { useWeb3ModalProvider } from '@web3modal/ethers/react';
+import Coingecko from '@coingecko/coingecko-typescript';
 import CustomSwapWidget from '../components/swap/CustomSwapWidget';
 import LiaisonChart from '../components/LiaisonChart';
+
+const GECKO_TERMINAL_URL = 'https://www.geckoterminal.com/eth/pools/0x0e85318d52f304bdc45cf00d386e6a93030a86cdfa3ae4a28438792dc3ee8516';
 
 const LIAISON_TOKEN = {
   address: '0xdb49FBb3CE99b2f7aA237BE400200f67B5bd3F52',
 };
 
-const USDT_TOKEN = {
-  address: '0xdAC17F958D2ee523a2206206994597C13D831ec7',
-};
 
 const Swap = () => {
   const [liaisonPrice, setLiaisonPrice] = useState(0.01766);
   const [priceLoading, setPriceLoading] = useState(true);
   const { walletProvider } = useWeb3ModalProvider();
 
-  // ── Fetch live prices ──────────────────────────────────────
+  // ── Fetch live price from CoinGecko ────────────────────────
   const fetchPrices = useCallback(async () => {
     setPriceLoading(true);
     try {
-      const queryParams = new URLSearchParams({
-        fromChainID: '1',
-        toChainID: '1',
-        token0: LIAISON_TOKEN.address,
-        token1: USDT_TOKEN.address,
-        amountIn: ethers.parseUnits('1', 18).toString(),
-        to: '0x0000000000000000000000000000000000000000',
-        issuer: '0x0000000000000000000000000000000000000000',
-        channel: 'default',
+      const client = new Coingecko({
+        demoAPIKey: 'CG-NBEWsq6fHuQNma3sVt49Kz78',
+        environment: 'demo',
       });
-
-      const res = await fetch(`/api/transit/v3/transit/swap?${queryParams.toString()}`);
-      if (!res.ok) throw new Error('Transit quote failed');
-      const json = await res.json();
-      
-      if (json.data && json.data.amountOut) {
-        const outAmount = ethers.formatUnits(json.data.amountOut, 6); // USDT is 6 decimals
-        setLiaisonPrice(Number(outAmount));
-      } else {
-        throw new Error(json.msg || 'Invalid response from Transit API');
-      }
+      const response = await client.onchain.networks.pools.getAddress(
+        '0x0e85318d52f304bdc45cf00d386e6a93030a86cdfa3ae4a28438792dc3ee8516',
+        { network: 'eth' }
+      );
+      const price = parseFloat(response.data?.attributes?.base_token_price_usd || '0.01766');
+      setLiaisonPrice(price);
     } catch (err: unknown) {
-      console.error('Failed to fetch price from Transit Finance:', err);
+      console.error('Failed to fetch price from CoinGecko:', err);
     }
     setPriceLoading(false);
   }, []);
@@ -124,14 +112,46 @@ const Swap = () => {
                   <BarChart3 size={18} style={{ color: 'var(--gold-primary)' }} />
                   <span style={{ fontSize: '14px', fontWeight: 800, color: 'white', letterSpacing: '0.02em', textTransform: 'uppercase' }}>Protocol Market Intel</span>
                 </div>
-                <button 
-                  onClick={fetchPrices} 
-                  style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid var(--border)', cursor: 'pointer', color: 'var(--text-secondary)', padding: '6px', borderRadius: '8px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
-                >
-                  <RefreshCw size={14} className={priceLoading ? 'animate-spin-slow' : ''} />
-                </button>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                  <a
+                    href={GECKO_TERMINAL_URL}
+                    target="_blank"
+                    rel="noreferrer"
+                    style={{
+                      display: 'flex', alignItems: 'center', gap: '4px',
+                      fontSize: '10px', fontWeight: 800, color: '#00c57a',
+                      background: 'rgba(0, 197, 122, 0.08)',
+                      border: '1px solid rgba(0, 197, 122, 0.25)',
+                      padding: '4px 8px', borderRadius: '8px',
+                      textDecoration: 'none', letterSpacing: '0.05em',
+                      transition: 'all 0.2s',
+                    }}
+                    onMouseEnter={e => (e.currentTarget.style.background = 'rgba(0, 197, 122, 0.15)')}
+                    onMouseLeave={e => (e.currentTarget.style.background = 'rgba(0, 197, 122, 0.08)')}
+                    title="View on GeckoTerminal"
+                  >
+                    🦎 GeckoTerminal <ExternalLink size={10} />
+                  </a>
+                  <button
+                    onClick={fetchPrices}
+                    style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid var(--border)', cursor: 'pointer', color: 'var(--text-secondary)', padding: '6px', borderRadius: '8px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+                  >
+                    <RefreshCw size={14} className={priceLoading ? 'animate-spin-slow' : ''} />
+                  </button>
+                </div>
               </div>
 
+              <div style={{ marginBottom: '8px' }}>
+                <span style={{
+                  fontSize: '10px', fontWeight: 800, color: '#00c57a',
+                  background: 'rgba(0, 197, 122, 0.08)',
+                  border: '1px solid rgba(0, 197, 122, 0.2)',
+                  padding: '2px 8px', borderRadius: '6px',
+                  letterSpacing: '0.08em', textTransform: 'uppercase'
+                }}>
+                  ✦ CoinGecko Price
+                </span>
+              </div>
               <div style={{ display: 'flex', alignItems: 'baseline', gap: '10px', marginBottom: '24px' }}>
                 <span style={{ fontSize: '36px', fontWeight: 900, color: 'white', fontVariantNumeric: 'tabular-nums', letterSpacing: '-0.02em' }}>
                   ${liaisonPrice < 0.01 ? liaisonPrice.toFixed(5) : liaisonPrice.toFixed(4)}
