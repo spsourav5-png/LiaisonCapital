@@ -284,6 +284,39 @@ const Home = () => {
         </div>
       </section>
 
+      {/* ── On-Chain Security Audit Score ──────────────────── */}
+      <section style={{ maxWidth: '1200px', margin: '0 auto 140px', padding: '0 24px' }}>
+        <div style={{ textAlign: 'center', marginBottom: '40px' }}>
+          <h2 style={{ fontSize: '36px', fontWeight: 900, color: 'white', marginBottom: '16px', letterSpacing: '-0.02em' }}>
+            On-Chain Security Audit
+          </h2>
+          <p style={{ color: 'var(--text-secondary)', fontSize: '16px', maxWidth: '600px', margin: '0 auto' }}>
+            Real-time security analytics and token contract auditing verified by GeckoTerminal.
+          </p>
+        </div>
+        <div className="card" style={{ 
+          padding: '24px', 
+          background: 'rgba(10, 10, 10, 0.4)',
+          backdropFilter: 'blur(16px)',
+          border: '1px solid var(--border-gold)',
+          borderRadius: '24px',
+          boxShadow: '0 24px 60px rgba(0,0,0,0.8), 0 0 30px var(--gold-glow)',
+          height: '600px',
+          overflow: 'hidden'
+        }}>
+          <iframe 
+            height="100%" 
+            width="100%" 
+            id="geckoterminal-score-card" 
+            title="GT Security Score Card" 
+            src="https://www.geckoterminal.com/eth/pools/0x0e85318d52f304bdc45cf00d386e6a93030a86cdfa3ae4a28438792dc3ee8516/security?size=max&color=dark" 
+            style={{ border: 'none', borderRadius: '16px' }}
+            allow="clipboard-write" 
+            allowFullScreen
+          />
+        </div>
+      </section>
+
       {/* ── Modals ──────────────────────────────────────────── */}
       
       {/* Whitepaper Modal */}
