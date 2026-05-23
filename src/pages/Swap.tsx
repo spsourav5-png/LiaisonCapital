@@ -159,7 +159,7 @@ const Swap = () => {
                 <span style={{ fontSize: '36px', fontWeight: 900, color: 'white', fontVariantNumeric: 'tabular-nums', letterSpacing: '-0.02em' }}>
                   ${liaisonPrice < 0.01 ? liaisonPrice.toFixed(5) : liaisonPrice.toFixed(4)}
                 </span>
-                <span style={{ fontSize: '14px', fontWeight: 700, color: 'var(--gold-primary)' }}>USD / LIA</span>
+                <span style={{ fontSize: '14px', fontWeight: 700, color: 'var(--gold-primary)' }}>LIA / USD</span>
               </div>
 
               <div style={{ gridTemplateColumns: '1fr 1fr', display: 'grid', gap: '12px', marginBottom: '20px' }}>
