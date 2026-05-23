@@ -78,7 +78,7 @@ export const REAL_FALLBACK_STATS: CollectionStats = {
 // ── OpenSea API Requests (Live with Real Fallback) ──────────────────
 
 export async function getCollectionDetails(): Promise<CollectionStats | null> {
-  const apiKey = import.meta.env.VITE_OPENSEA_API_KEY;
+  const apiKey = import.meta.env.VITE_OPENSEA_API_KEY || "99d8e558b39dc7344e215cecdb453693";
   const headers: HeadersInit = {
     'Accept': 'application/json',
   };
@@ -118,7 +118,7 @@ export async function getCollectionDetails(): Promise<CollectionStats | null> {
 }
 
 export async function getCollectionNFTs(): Promise<{ items: NFTItem[]; isLive: boolean }> {
-  const apiKey = import.meta.env.VITE_OPENSEA_API_KEY;
+  const apiKey = import.meta.env.VITE_OPENSEA_API_KEY || "99d8e558b39dc7344e215cecdb453693";
   const headers: HeadersInit = {
     'Accept': 'application/json',
   };
