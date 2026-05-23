@@ -190,6 +190,40 @@ export async function getCollectionNFTs(): Promise<{ items: NFTItem[]; isLive: b
     headers['x-api-key'] = apiKey;
   }
 
+  // 1. Fetch active listings first to get real-time price tags
+  let listingsMap: Record<string, string> = {};
+  try {
+    const listingsRes = await fetch(`/api/opensea/api/v2/listings/collection/${COLLECTION_SLUG}/all?limit=50`, {
+      method: 'GET',
+      headers,
+    });
+    if (listingsRes.ok) {
+      const listingsData = await listingsRes.json();
+      const listingsList = listingsData.listings || [];
+      listingsList.forEach((listing: any) => {
+        try {
+          const offer = listing.protocol_data?.parameters?.offer?.[0];
+          const tokenId = offer?.identifierOrCriteria;
+          const currentPriceObj = listing.price?.current;
+          
+          if (tokenId && currentPriceObj) {
+            const rawValue = currentPriceObj.value;
+            const decimals = currentPriceObj.decimals || 18;
+            const currency = currentPriceObj.currency || 'ETH';
+            const valueFloat = parseFloat(rawValue) / Math.pow(10, decimals);
+            
+            listingsMap[tokenId] = `${valueFloat.toFixed(2)} ${currency}`;
+          }
+        } catch (err) {
+          console.warn('Failed parsing individual Seaport listing', err);
+        }
+      });
+    }
+  } catch (error) {
+    console.warn('OpenSea Listings API failed, falling back to static price mapping:', error);
+  }
+
+  // 2. Fetch the collection NFTs
   try {
     const res = await fetch(`/api/opensea/api/v2/collection/${COLLECTION_SLUG}/nfts?limit=20`, {
       method: 'GET',
@@ -220,9 +254,10 @@ export async function getCollectionNFTs(): Promise<{ items: NFTItem[]; isLive: b
       else if (index < 5) rarity = 'Epic';
       else if (index < 10) rarity = 'Rare';
 
-      // Custom price tags for display
+      // Match with Seaport listing price if available, otherwise fallback to static price tags
       const priceList = ['1.50 ETH', '2.80 ETH', '0.85 ETH', '0.75 ETH', '0.45 ETH', '0.20 ETH'];
-      const price = priceList[index % priceList.length];
+      const staticPrice = priceList[index % priceList.length];
+      const livePrice = listingsMap[nft.identifier] || staticPrice;
 
       return {
         identifier: nft.identifier || String(index + 1),
@@ -233,7 +268,7 @@ export async function getCollectionNFTs(): Promise<{ items: NFTItem[]; isLive: b
         traits,
         rarity,
         category: traits.find((t: any) => t.trait_type === 'Class')?.value || 'Asset',
-        price,
+        price: livePrice,
       };
     });
 
