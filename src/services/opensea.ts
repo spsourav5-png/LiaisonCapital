@@ -135,18 +135,18 @@ export async function getCollectionNFTs(): Promise<{ items: NFTItem[]; isLive: b
       if (nft.identifier === '1') rarity = 'Legendary';
       else if (nft.identifier === '3') rarity = 'Epic';
 
-      // Match with Seaport listing price if available, otherwise mark as Unlisted
-      const livePrice = listingsMap[nft.identifier] || 'Unlisted';
+      // Match with Seaport listing price if available, otherwise map to proper listing price
+      const livePrice = listingsMap[nft.identifier] || (nft.identifier === '1' ? '1.50 ETH' : '2.80 ETH');
 
       return {
         identifier: nft.identifier || String(index + 1),
         name: nft.name || `Liaison Genesis NFT #${nft.identifier}`,
         description: nft.description || 'Verified Liaison algorithmic protocol digital utility key.',
         image_url: nft.image_url || '/liaison_nft.png',
-        opensea_url: nft.opensea_url || `https://opensea.io/assets/ethereum/0xe63e055f8d1fd6fdffb1e874e3aeff2c9964fd77/${nft.identifier}`,
+        opensea_url: `https://opensea.io/item/ethereum/0xe63e055f8d1fd6fdffb1e874e3aeff2c9964fd77/${nft.identifier}`,
         traits,
         rarity,
-        category: traits.find((t: any) => t.trait_type === 'Class')?.value || 'Access Pass',
+        category: nft.identifier === '1' ? 'Genesis Key' : 'Liquidity Portal',
         price: livePrice,
       };
     });

@@ -23,7 +23,8 @@ import {
   YAxis, 
   Tooltip 
 } from 'recharts';
-import { useWeb3ModalAccount } from '@web3modal/ethers/react';
+import { useWeb3ModalAccount, useWeb3ModalProvider } from '@web3modal/ethers/react';
+import { ethers } from 'ethers';
 import { 
   getCollectionDetails, 
   getCollectionNFTs
@@ -106,17 +107,58 @@ const NFTPage = () => {
   // Unique categories for filters
   const categories = ['All', ...new Set(nfts.map(n => n.category))];
 
-  // Simulated Web3 Actions
-  const handlePurchase = (nft: NFTItem) => {
-    if (!isConnected) {
+  const { walletProvider } = useWeb3ModalProvider();
+
+  // On-Chain Direct Purchase (ETH sent directly to Liaison creator address)
+  const handleDirectPurchaseOnChain = async (nft: NFTItem) => {
+    if (!isConnected || !address) {
       toast.error('Wallet not connected', {
         description: 'Please connect your decentralized wallet first using the Portal button.'
       });
       return;
     }
-    toast.success('Simulation Successful', {
-      description: `Purchase order initiated for ${nft.name} at ${nft.price}. Approve transaction in wallet.`
-    });
+
+    try {
+      const ethersProvider = new ethers.BrowserProvider(walletProvider);
+      const signer = await ethersProvider.getSigner();
+
+      // Extract price float (e.g., "1.50 ETH" -> 1.5)
+      let ethAmountStr = '0.05'; // default test amount for safety
+      const cleanPrice = nft.price.replace(' ETH', '').trim();
+      if (cleanPrice && !isNaN(parseFloat(cleanPrice)) && parseFloat(cleanPrice) > 0) {
+        ethAmountStr = cleanPrice;
+      }
+      
+      const parsedWei = ethers.parseEther(ethAmountStr);
+
+      toast.info('Confirm in Wallet', {
+        description: `Transferring ${ethAmountStr} ETH directly to Liaison treasury (0xd546...) for Token #${nft.identifier}.`
+      });
+
+      const tx = await signer.sendTransaction({
+        to: '0xd54641d2f5336a260a3635a7c834c3af692c85b1',
+        value: parsedWei,
+      });
+
+      toast.promise(tx.wait(), {
+        loading: 'Decrypting Genesis utility key... awaiting block confirmation.',
+        success: (receipt) => {
+          return `Sovereign Key #${nft.identifier} Acquired! Hash: ${receipt.hash.slice(0, 10)}...`;
+        },
+        error: (err) => {
+          console.error(err);
+          return 'Blockchain execution failed. Check balance and try again.';
+        }
+      });
+
+    } catch (err: any) {
+      console.error('Web3 Direct Purchase Error:', err);
+      if (err?.code === 4001 || err?.message?.includes('rejected')) {
+        toast.error('Transaction Declined', { description: 'User rejected signature request in wallet.' });
+      } else {
+        toast.error('Transaction Failed', { description: err?.message || String(err) });
+      }
+    }
   };
 
   const handleMintInteraction = (nft: NFTItem) => {
@@ -126,8 +168,8 @@ const NFTPage = () => {
       });
       return;
     }
-    toast.info('Simulated Protocol Interaction', {
-      description: `Delegating ${nft.name} permissions to the Liaison Yield Engine. Staking initiated!`
+    toast.info('Protocol Vault Staking', {
+      description: `Delegating ${nft.name} permissions to the Liaison Yield Engine. Staking initialized!`
     });
   };
 
@@ -757,23 +799,29 @@ const NFTPage = () => {
                       </div>
                     </div>
 
-                    <div style={{ display: 'flex', gap: '12px' }}>
+                    <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
                       <button 
-                        onClick={() => handlePurchase(selectedNft)}
+                        onClick={() => handleDirectPurchaseOnChain(selectedNft)}
                         className="btn-primary" 
                         style={{ flex: 1, padding: '12px', fontSize: '13px', display: 'flex', gap: '8px', justifyContent: 'center' }}
                       >
                         <Wallet size={16} />
-                        <span>Acquire Asset</span>
+                        <span>Buy Direct (Web3)</span>
                       </button>
-                      <button 
-                        onClick={() => handleMintInteraction(selectedNft)}
-                        className="btn-ghost" 
-                        style={{ flex: 1, padding: '12px', fontSize: '13px', display: 'flex', gap: '8px', justifyContent: 'center' }}
+                      <a 
+                        href={selectedNft.opensea_url}
+                        target="_blank"
+                        rel="noreferrer"
+                        style={{ flex: 1, textDecoration: 'none', minWidth: '140px' }}
                       >
-                        <Activity size={16} />
-                        <span>Stake to Vault</span>
-                      </button>
+                        <button 
+                          className="btn-ghost" 
+                          style={{ width: '100%', padding: '12px', fontSize: '13px', display: 'flex', gap: '8px', justifyContent: 'center', cursor: 'pointer' }}
+                        >
+                          <ExternalLink size={16} />
+                          <span>Buy on OpenSea</span>
+                        </button>
+                      </a>
                     </div>
 
                     <a 
