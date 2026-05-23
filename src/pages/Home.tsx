@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowRight, BookOpen, ShieldCheck, X, CheckCircle2, ChevronRight, Lock, Globe, BarChart3, Shield, TrendingUp } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import CryptoTicker from '../components/CryptoTicker';
+import Coingecko from '@coingecko/coingecko-typescript';
 
 // ── Shared Modal Component ─────────────────────────────────────
 const Modal = ({ isOpen, onClose, title, children }: { isOpen: boolean; onClose: () => void; title: string; children: React.ReactNode }) => (
@@ -83,16 +84,18 @@ const Home = () => {
   useEffect(() => {
     const fetchPrice = async () => {
       try {
-        const res = await fetch('https://api.geckoterminal.com/api/v2/networks/eth/pools/0x0e85318d52f304bdc45cf00d386e6a93030a86cdfa3ae4a28438792dc3ee8516');
-        if (res.ok) {
-          const json = await res.json();
-          const price = parseFloat(json.data?.attributes?.base_token_price_usd || '1.0008');
-          setLiaisonPrice(`$${price.toFixed(4)}`);
-        } else {
-          setLiaisonPrice('$1.0008');
-        }
+        const client = new Coingecko({
+          demoAPIKey: 'CG-NBEWsq6fHuQNma3sVt49Kz78',
+          environment: 'demo',
+        });
+        const response = await client.onchain.networks.pools.getAddress(
+          '0x0e85318d52f304bdc45cf00d386e6a93030a86cdfa3ae4a28438792dc3ee8516',
+          { network: 'eth' }
+        );
+        const price = parseFloat(response.data?.attributes?.base_token_price_usd || '1.0008');
+        setLiaisonPrice(`$${price.toFixed(4)}`);
       } catch (err) {
-        console.error('Failed to fetch GeckoTerminal price:', err);
+        console.error('Failed to fetch GeckoTerminal price via SDK:', err);
         setLiaisonPrice('$1.0008');
       }
     };

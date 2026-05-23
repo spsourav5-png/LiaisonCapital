@@ -10,6 +10,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@coingecko/coingecko-typescript": "^5.1.1",
     "@uniswap/sdk-core": "^7.13.0",
     "@uniswap/widgets": "^2.59.0",
     "@vercel/analytics": "^2.0.1",

@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import { Wallet, ArrowUpRight, RefreshCw, AlertTriangle } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { ethers } from 'ethers';
+import Coingecko from '@coingecko/coingecko-typescript';
 
 // ── Contract addresses ────────────────────────────────────────
 const LIAISON_CONTRACT = '0xdb49FBb3CE99b2f7aA237BE400200f67B5bd3F52';
@@ -76,20 +77,20 @@ const fmt = (n: number, decimals = 4) =>
 const fmtUSD = (n: number) =>
   n.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 
-// ── Fetch live ETH price via a public free endpoint ───────────
+// ── Fetch live ETH price via the official CoinGecko TypeScript SDK ───
 const fetchEthUsdPrice = async (): Promise<number> => {
   try {
-    const res = await fetch(
-      'https://api.coingecko.com/api/v3/simple/price?ids=ethereum&vs_currencies=usd',
-      {
-        headers: {
-          'x-cg-demo-api-key': 'CG-NBEWsq6fHuQNma3sVt49Kz78'
-        }
-      }
-    );
-    const data = await res.json();
-    return data?.ethereum?.usd ?? 3240;
-  } catch {
+    const client = new Coingecko({
+      demoAPIKey: 'CG-NBEWsq6fHuQNma3sVt49Kz78',
+      environment: 'demo',
+    });
+    const priceData = await client.simple.price.get({
+      ids: 'ethereum',
+      vs_currencies: 'usd',
+    });
+    return priceData.ethereum?.usd ?? 3240;
+  } catch (err) {
+    console.error('Failed to fetch CoinGecko price via SDK:', err);
     return 3240; // fallback
   }
 };
