@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { BrowserRouter as Router, Routes, Route, Link, useLocation } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import LiaisonLogo from './components/LiaisonLogo';
+import TopCoinsFooter from './components/TopCoinsFooter';
 import Home from './pages/Home';
 import Swap from './pages/Swap';
 import Portfolio from './pages/Portfolio';
@@ -155,12 +156,15 @@ const Footer = () => {
           <p style={{ fontSize: '13px', color: 'var(--text-muted)' }}>
             © 2026 Liaison Protocol. All institutional rights reserved.
           </p>
-          <div style={{ display: 'flex', gap: '24px' }}>
+          <div style={{ display: 'flex', gap: '24px', alignItems: 'center' }}>
             <span style={{ fontSize: '13px', color: 'var(--text-muted)' }}>Security Audited</span>
             <span style={{ fontSize: '13px', color: 'var(--text-muted)' }}>Gold Backed</span>
           </div>
         </div>
       </div>
+
+      {/* Top 30 Coins Ticker — powered by CoinGecko / GeckoTerminal */}
+      <TopCoinsFooter />
     </footer>
   );
 };

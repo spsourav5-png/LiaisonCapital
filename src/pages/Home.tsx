@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowRight, BookOpen, ShieldCheck, X, CheckCircle2, ChevronRight, Lock, Globe, BarChart3, Shield, TrendingUp } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import CryptoTicker from '../components/CryptoTicker';
 
 // ── Shared Modal Component ─────────────────────────────────────
 const Modal = ({ isOpen, onClose, title, children }: { isOpen: boolean; onClose: () => void; title: string; children: React.ReactNode }) => (
@@ -397,10 +396,6 @@ const Home = () => {
         </div>
       </Modal>
 
-      {/* ── Crypto Ticker Footer ────────────────────────────── */}
-      <div style={{ position: 'sticky', bottom: 0, left: 0, right: 0, zIndex: 10 }}>
-        <CryptoTicker />
-      </div>
     </div>
   );
 };
