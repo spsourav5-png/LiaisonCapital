@@ -17,19 +17,9 @@ const ERC20_ABI = [
   'function symbol() view returns (string)',
 ];
 
-// ── Uniswap V3 LIAISON/USDT pool (0.3% fee) ──────────────────
-// Used to derive live LIAISON price from on-chain reserves
-const POOL_ADDRESS = '0x11b815efB8f581194ae79006d24E0d814B7697F6'; // USDT/WETH reference — 
-// We use a direct price from the pool slot0 for LIAISON/USDT
-// Pool for LIAISON/USDT — if not found, fall back to hardcoded price
-const LIAISON_PRICE_FALLBACK = 0.01766; // USD per LIAISON
+// ── Price Fallback ───────────────────────────────────────────
+const LIAISON_PRICE_FALLBACK = 0.9956; // USD per LIAISON (approximate)
 
-// Minimal Uniswap V3 Pool ABI
-const POOL_ABI = [
-  'function slot0() view returns (uint160 sqrtPriceX96, int24 tick, uint16 observationIndex, uint16 observationCardinality, uint16 observationCardinalityNext, uint8 feeProtocol, bool unlocked)',
-  'function token0() view returns (address)',
-  'function token1() view returns (address)',
-];
 
 // ── Token icons ───────────────────────────────────────────────
 const ETH_ICON = (
@@ -95,6 +85,26 @@ const fetchEthUsdPrice = async (): Promise<number> => {
   }
 };
 
+// ── Fetch live LIAISON price from GeckoTerminal ──────────────────
+const fetchLiaisonPrice = async (): Promise<number> => {
+  try {
+    const res = await fetch(
+      'https://api.geckoterminal.com/api/v2/networks/eth/pools/0x0e85318d52f304bdc45cf00d386e6a93030a86cdfa3ae4a28438792dc3ee8516',
+      { headers: { Accept: 'application/json;version=20230302' } }
+    );
+    if (!res.ok) throw new Error(`GeckoTerminal API error: ${res.status}`);
+    const json = await res.json();
+    const rawPrice = json?.data?.attributes?.base_token_price_usd;
+    if (rawPrice) {
+      return parseFloat(rawPrice);
+    }
+    throw new Error('Price field missing in GeckoTerminal response');
+  } catch (err) {
+    console.error('Failed to fetch LIAISON price from GeckoTerminal:', err);
+    return LIAISON_PRICE_FALLBACK;
+  }
+};
+
 // ── Portfolio ─────────────────────────────────────────────────
 interface TokenRow {
   icon: React.ReactNode;
@@ -145,25 +155,8 @@ const Portfolio = () => {
 
       // 4. Prices
       const ethPrice = await fetchEthUsdPrice();
-      // Attempt to get live LIAISON price from Uniswap V3 pool
-      let liaisonPrice = LIAISON_PRICE_FALLBACK;
-      try {
-        const poolContract = new ethers.Contract(POOL_ADDRESS, POOL_ABI, provider);
-        const [slot0Data, token0Addr] = await Promise.all([
-          poolContract.slot0(),
-          poolContract.token0(),
-        ]);
-        const sqrtPriceX96 = BigInt(slot0Data[0]);
-        const Q96 = BigInt(2 ** 96);
-        // Determine which direction the price goes (USDT is 6 decimals, LIAISON is 18)
-        const isToken0Liaison = token0Addr.toLowerCase() === LIAISON_CONTRACT.toLowerCase();
-        const rawPrice = Number((sqrtPriceX96 * sqrtPriceX96 * BigInt(1e6)) / (Q96 * Q96)) / 1e18;
-        liaisonPrice = isToken0Liaison ? rawPrice : 1 / rawPrice;
-        // Sanity-check — if obviously wrong, use fallback
-        if (liaisonPrice <= 0 || liaisonPrice > 10000) liaisonPrice = LIAISON_PRICE_FALLBACK;
-      } catch {
-        liaisonPrice = LIAISON_PRICE_FALLBACK;
-      }
+      // Get live LIAISON price from GeckoTerminal API
+      const liaisonPrice = await fetchLiaisonPrice();
 
       setTokens([
         { icon: ETH_ICON,     symbol: 'ETH',     name: 'Ethereum',   balance: ethBalance,     price: ethPrice },
