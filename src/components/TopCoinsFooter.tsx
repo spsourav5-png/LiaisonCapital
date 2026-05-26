@@ -135,24 +135,23 @@ const TopCoinsFooter = () => {
           onMouseEnter={e => { e.currentTarget.style.opacity = '1'; e.currentTarget.style.transform = 'scale(1.05)'; }}
           onMouseLeave={e => { e.currentTarget.style.opacity = '0.8'; e.currentTarget.style.transform = 'scale(1)'; }}
         >
-          {/* GeckoTerminal Logo */}
-          <svg width="20" height="20" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <rect width="32" height="32" rx="8" fill="#7C4DFF" fillOpacity="0.15"/>
-            <path d="M16 4C9.373 4 4 9.373 4 16s5.373 12 12 12 12-5.373 12-12S22.627 4 16 4z" fill="none" stroke="#7C4DFF" strokeWidth="1.5"/>
-            <path d="M11 14c0-1.1.9-2 2-2s2 .9 2 2" stroke="#7C4DFF" strokeWidth="1.5" strokeLinecap="round"/>
-            <path d="M17 14c0-1.1.9-2 2-2s2 .9 2 2" stroke="#7C4DFF" strokeWidth="1.5" strokeLinecap="round"/>
-            <circle cx="12.5" cy="14.5" r="1" fill="#7C4DFF"/>
-            <circle cx="19.5" cy="14.5" r="1" fill="#7C4DFF"/>
-            <path d="M10 19c1.5 2.5 4.5 3 6 3s4.5-.5 6-3" stroke="#7C4DFF" strokeWidth="1.5" strokeLinecap="round"/>
-            <path d="M8 12c-1-2 0-5 2-6" stroke="#7C4DFF" strokeWidth="1.2" strokeLinecap="round"/>
-            <path d="M24 12c1-2 0-5-2-6" stroke="#7C4DFF" strokeWidth="1.2" strokeLinecap="round"/>
-          </svg>
+          {/* GeckoTerminal Logo — official gecko mascot */}
+          <img
+            src="/geckoterminal-logo.svg"
+            alt="GeckoTerminal"
+            style={{
+              width: 24,
+              height: 24,
+              borderRadius: '6px',
+              flexShrink: 0,
+            }}
+          />
           <span style={{
-            fontSize: '12px',
+            fontSize: '13px',
             fontWeight: 800,
             letterSpacing: '-0.01em',
           }}>
-            <span style={{ color: '#7C4DFF' }}>Gecko</span>
+            <span style={{ color: '#7556F6' }}>Gecko</span>
             <span style={{ color: 'rgba(255,255,255,0.7)' }}>Terminal</span>
           </span>
         </a>
