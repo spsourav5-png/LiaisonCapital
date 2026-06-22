@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ArrowRight, BookOpen, ShieldCheck, X, CheckCircle2, ChevronRight, Lock, Globe, BarChart3, Shield, TrendingUp } from 'lucide-react';
+import { ArrowRight, BookOpen, ShieldCheck, X, CheckCircle2, ChevronRight, Lock, Globe, BarChart3, Shield, TrendingUp, Coins, ExternalLink } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 // ── Shared Modal Component ─────────────────────────────────────
@@ -285,6 +285,98 @@ const Home = () => {
               Framework Details
             </button>
           </div>
+        </div>
+      </section>
+
+      {/* ── Staking Section ─────────────────────────────────── */}
+      <section style={{ maxWidth: '1200px', margin: '0 auto 140px', padding: '0 24px' }}>
+        <div style={{ 
+          display: 'grid', 
+          gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', 
+          gap: '40px',
+          alignItems: 'center'
+        }}>
+          <motion.div
+            initial={{ opacity: 0, x: -20 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+          >
+            <span style={{ 
+              fontSize: '11px', 
+              fontWeight: 800, 
+              color: 'var(--gold-primary)', 
+              background: 'rgba(212, 175, 55, 0.08)',
+              border: '1px solid rgba(212, 175, 55, 0.25)',
+              padding: '6px 12px', 
+              borderRadius: '8px', 
+              textTransform: 'uppercase', 
+              letterSpacing: '0.1em',
+              display: 'inline-block',
+              marginBottom: '20px'
+            }}>
+              Active Yield Portal
+            </span>
+            <h2 style={{ fontSize: '42px', fontWeight: 900, color: 'white', marginBottom: '24px', letterSpacing: '-0.02em', lineHeight: 1.1 }}>
+              Institutional Staking
+            </h2>
+            <p style={{ color: 'var(--text-secondary)', fontSize: '16px', lineHeight: 1.8, marginBottom: '32px', fontWeight: 500 }}>
+              Maximize your LIA capital efficiency by participating in the official staking pools powered by Unvest. Earn secure yield rewards governed by decentralized smart contract technology.
+            </p>
+            <div style={{ display: 'flex', gap: '20px', flexWrap: 'wrap' }}>
+              <a 
+                href="https://app.unvest.io/projects/1/0xdb49fbb3ce99b2f7aa237be400200f67b5bd3f52/staking-pools/0x6748488af27199e4aeac763438ec819a15a39551" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                style={{ textDecoration: 'none' }}
+              >
+                <button className="btn-primary" style={{ padding: '16px 36px', fontSize: '15px' }}>
+                  Access Staking Pool <ExternalLink size={16} />
+                </button>
+              </a>
+            </div>
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, x: 20 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="card"
+            style={{ 
+              padding: '40px',
+              background: 'linear-gradient(135deg, rgba(212, 175, 55, 0.03) 0%, rgba(255, 255, 255, 0.01) 100%)',
+              border: '1px solid var(--border-gold)',
+              boxShadow: '0 20px 50px rgba(0,0,0,0.5)'
+            }}
+          >
+            <div style={{ display: 'grid', gap: '24px' }}>
+              {[
+                { title: 'Secured Infrastructure', desc: 'Staking pools are powered by Unvest\'s battle-tested ERC-20 staking contracts.', icon: Lock },
+                { title: 'Algorithmic Yield', desc: 'Yield rewards are programmatically calculated and distributed to long-term stakers.', icon: TrendingUp },
+                { title: 'Gold-Backed Foundation', desc: 'The underlying token ecosystem remains fully supported by verifiable physical gold assets.', icon: ShieldCheck }
+              ].map((item, idx) => (
+                <div key={idx} style={{ display: 'flex', gap: '20px', alignItems: 'flex-start' }}>
+                  <div style={{ 
+                    background: 'rgba(212, 175, 55, 0.08)', 
+                    border: '1px solid rgba(212, 175, 55, 0.2)', 
+                    borderRadius: '12px', 
+                    padding: '12px',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    color: 'var(--gold-primary)'
+                  }}>
+                    <item.icon size={20} />
+                  </div>
+                  <div>
+                    <h4 style={{ fontSize: '16px', fontWeight: 800, color: 'white', marginBottom: '6px' }}>{item.title}</h4>
+                    <p style={{ fontSize: '14px', color: 'var(--text-muted)', lineHeight: 1.5 }}>{item.desc}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </motion.div>
         </div>
       </section>
 

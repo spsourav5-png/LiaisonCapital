@@ -206,12 +206,22 @@ const Portfolio = () => {
             </p>
           </div>
           {isConnected && (
-            <div style={{ display: 'flex', gap: '10px' }}>
-              <Link to="/swap">
+            <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
+              <Link to="/swap" style={{ textDecoration: 'none' }}>
                 <button className="btn-primary" style={{ padding: '9px 18px', fontSize: '13px' }}>
                   Open Swap <ArrowUpRight size={14} />
                 </button>
               </Link>
+              <a 
+                href="https://app.unvest.io/projects/1/0xdb49fbb3ce99b2f7aa237be400200f67b5bd3f52/staking-pools/0x6748488af27199e4aeac763438ec819a15a39551"
+                target="_blank"
+                rel="noreferrer"
+                style={{ textDecoration: 'none' }}
+              >
+                <button className="btn-primary" style={{ padding: '9px 18px', fontSize: '13px', background: 'linear-gradient(135deg, var(--gold-primary), #b8972f)', color: 'black', border: 'none' }}>
+                  Staking Pool <ArrowUpRight size={14} />
+                </button>
+              </a>
               <button
                 id="portfolio-refresh-btn"
                 onClick={handleRefresh}

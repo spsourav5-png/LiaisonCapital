@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 import { motion } from 'framer-motion';
-import { RefreshCw, ExternalLink, Wallet, BarChart3, ShieldCheck, Shield } from 'lucide-react';
+import { RefreshCw, ExternalLink, Wallet, BarChart3, ShieldCheck, Shield, Coins } from 'lucide-react';
 import { ethers } from 'ethers';
 import { useWeb3ModalProvider } from '@web3modal/ethers/react';
 import CustomSwapWidget from '../components/swap/CustomSwapWidget';
@@ -226,13 +226,43 @@ const Swap = () => {
                   cursor: 'pointer', 
                   transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
                   textTransform: 'uppercase',
-                  letterSpacing: '0.05em'
+                  letterSpacing: '0.05em',
+                  marginBottom: '12px'
                 }}
                 onMouseEnter={(e) => { e.currentTarget.style.background = 'rgba(212, 175, 55, 0.1)'; e.currentTarget.style.boxShadow = '0 0 20px var(--gold-glow)'; }}
                 onMouseLeave={(e) => { e.currentTarget.style.background = 'rgba(212, 175, 55, 0.05)'; e.currentTarget.style.boxShadow = 'none'; }}
               >
                 <Wallet size={16} /> Add LIA to Institutional Wallet
               </button>
+
+              <a 
+                href="https://app.unvest.io/projects/1/0xdb49fbb3ce99b2f7aa237be400200f67b5bd3f52/staking-pools/0x6748488af27199e4aeac763438ec819a15a39551"
+                target="_blank"
+                rel="noreferrer"
+                style={{ 
+                  width: '100%', 
+                  display: 'flex', 
+                  alignItems: 'center', 
+                  justifyContent: 'center', 
+                  gap: '10px', 
+                  padding: '14px', 
+                  borderRadius: '16px', 
+                  background: 'linear-gradient(135deg, var(--gold-primary), #b8972f)', 
+                  border: 'none', 
+                  fontSize: '14px', 
+                  fontWeight: 800, 
+                  color: 'black', 
+                  cursor: 'pointer', 
+                  transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+                  textTransform: 'uppercase',
+                  letterSpacing: '0.05em',
+                  textDecoration: 'none'
+                }}
+                onMouseEnter={(e) => { e.currentTarget.style.filter = 'brightness(1.1)'; e.currentTarget.style.boxShadow = '0 0 20px var(--gold-glow)'; }}
+                onMouseLeave={(e) => { e.currentTarget.style.filter = 'none'; e.currentTarget.style.boxShadow = 'none'; }}
+              >
+                <Coins size={16} /> Access Liaison Staking Pool
+              </a>
             </div>
           </motion.div>
 

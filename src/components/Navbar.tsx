@@ -11,6 +11,7 @@ const NAV_LINKS = [
   { label: 'NFTs',      path: '/nfts' },
   { label: 'Portfolio', path: '/portfolio' },
   { label: 'Protocol',  path: '/protocol' },
+  { label: 'Staking',   path: 'https://app.unvest.io/projects/1/0xdb49fbb3ce99b2f7aa237be400200f67b5bd3f52/staking-pools/0x6748488af27199e4aeac763438ec819a15a39551', isExternal: true },
 ];
 
 const Navbar = () => {
@@ -59,28 +60,53 @@ const Navbar = () => {
 
       {/* ── Center: Navigation Links ────────────────────────── */}
       <div className="nav-desktop">
-        {NAV_LINKS.map((item) => (
-          <Link
-            key={item.label}
-            to={item.path}
-            style={{
-              padding: '8px 16px',
-              borderRadius: '10px',
-              fontSize: '14px',
-              fontWeight: isActive(item.path) ? 700 : 500,
-              color: isActive(item.path) ? 'var(--gold-primary)' : 'var(--text-secondary)',
-              transition: 'all 0.3s',
-              textDecoration: 'none',
-              display: 'flex',
-              alignItems: 'center',
-              gap: '4px'
-            }}
-            className="nav-link-hover"
-          >
-            {item.label}
-            {isActive(item.path) && <motion.div layoutId="activeNav" style={{ width: 4, height: 4, borderRadius: '50%', background: 'var(--gold-primary)' }} />}
-          </Link>
-        ))}
+        {NAV_LINKS.map((item) => {
+          const isLinkActive = !item.isExternal && isActive(item.path);
+          const styleProps = {
+            padding: '8px 16px',
+            borderRadius: '10px',
+            fontSize: '14px',
+            fontWeight: isLinkActive ? 700 : 500,
+            color: isLinkActive ? 'var(--gold-primary)' : 'var(--text-secondary)',
+            transition: 'all 0.3s',
+            textDecoration: 'none',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '4px'
+          };
+          const linkContent = (
+            <>
+              {item.label}
+              {isLinkActive && <motion.div layoutId="activeNav" style={{ width: 4, height: 4, borderRadius: '50%', background: 'var(--gold-primary)' }} />}
+            </>
+          );
+
+          if (item.isExternal) {
+            return (
+              <a
+                key={item.label}
+                href={item.path}
+                target="_blank"
+                rel="noopener noreferrer"
+                style={styleProps}
+                className="nav-link-hover"
+              >
+                {linkContent}
+              </a>
+            );
+          }
+
+          return (
+            <Link
+              key={item.label}
+              to={item.path}
+              style={styleProps}
+              className="nav-link-hover"
+            >
+              {linkContent}
+            </Link>
+          );
+        })}
         <a 
           href="#roadmap" 
           onClick={(e) => { e.preventDefault(); scrollToSection('roadmap'); }}
@@ -154,29 +180,50 @@ const Navbar = () => {
             }}
           >
             <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-              {NAV_LINKS.map(item => (
-                <Link
-                  key={item.label}
-                  to={item.path}
-                  onClick={() => setMenuOpen(false)}
-                  style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'space-between',
-                    padding: '16px 20px',
-                    borderRadius: '16px',
-                    color: isActive(item.path) ? 'white' : 'var(--text-secondary)',
-                    background: isActive(item.path) ? 'rgba(212, 175, 55, 0.1)' : 'transparent',
-                    fontWeight: isActive(item.path) ? 700 : 500,
-                    fontSize: '16px',
-                    textDecoration: 'none',
-                    border: isActive(item.path) ? '1px solid var(--border-gold)' : '1px solid transparent'
-                  }}
-                >
-                  {item.label}
-                  <ChevronRight size={18} opacity={isActive(item.path) ? 1 : 0.3} />
-                </Link>
-              ))}
+              {NAV_LINKS.map(item => {
+                const isLinkActive = !item.isExternal && isActive(item.path);
+                const styleProps = {
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
+                  padding: '16px 20px',
+                  borderRadius: '16px',
+                  color: isLinkActive ? 'white' : 'var(--text-secondary)',
+                  background: isLinkActive ? 'rgba(212, 175, 55, 0.1)' : 'transparent',
+                  fontWeight: isLinkActive ? 700 : 500,
+                  fontSize: '16px',
+                  textDecoration: 'none',
+                  border: isLinkActive ? '1px solid var(--border-gold)' : '1px solid transparent'
+                };
+
+                if (item.isExternal) {
+                  return (
+                    <a
+                      key={item.label}
+                      href={item.path}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      onClick={() => setMenuOpen(false)}
+                      style={styleProps}
+                    >
+                      {item.label}
+                      <ChevronRight size={18} opacity={0.3} />
+                    </a>
+                  );
+                }
+
+                return (
+                  <Link
+                    key={item.label}
+                    to={item.path}
+                    onClick={() => setMenuOpen(false)}
+                    style={styleProps}
+                  >
+                    {item.label}
+                    <ChevronRight size={18} opacity={isLinkActive ? 1 : 0.3} />
+                  </Link>
+                );
+              })}
               <a 
                 href="#roadmap" 
                 onClick={(e) => { e.preventDefault(); scrollToSection('roadmap'); }}
