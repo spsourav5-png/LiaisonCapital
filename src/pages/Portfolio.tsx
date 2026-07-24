@@ -6,7 +6,7 @@ import { ethers } from 'ethers';
 import Coingecko from '@coingecko/coingecko-typescript';
 
 // ── Contract addresses ────────────────────────────────────────
-const LIAISON_CONTRACT = '0xdb49FBb3CE99b2f7aA237BE400200f67B5bd3F52';
+const LIAISON_CONTRACT = '0x61481d83965a494773087628874a2f8d44c27cc2';
 // USDT on Ethereum mainnet
 const USDT_CONTRACT    = '0xdAC17F958D2ee523a2206206994597C13D831ec7';
 
@@ -213,7 +213,7 @@ const Portfolio = () => {
                 </button>
               </Link>
               <a 
-                href="https://app.unvest.io/projects/1/0xdb49fbb3ce99b2f7aa237be400200f67b5bd3f52/staking-pools/0x6748488af27199e4aeac763438ec819a15a39551"
+                href="https://app.unvest.io/projects/1/0x61481d83965a494773087628874a2f8d44c27cc2/staking-pools/0x6748488af27199e4aeac763438ec819a15a39551"
                 target="_blank"
                 rel="noreferrer"
                 style={{ textDecoration: 'none' }}

@@ -9,7 +9,7 @@ import LiaisonChart from '../components/LiaisonChart';
 const GECKO_TERMINAL_URL = 'https://www.geckoterminal.com/eth/pools/0x0e85318d52f304bdc45cf00d386e6a93030a86cdfa3ae4a28438792dc3ee8516';
 
 const LIAISON_TOKEN = {
-  address: '0xdb49FBb3CE99b2f7aA237BE400200f67B5bd3F52',
+  address: '0x61481d83965a494773087628874a2f8d44c27cc2',
 };
 
 
@@ -236,7 +236,7 @@ const Swap = () => {
               </button>
 
               <a 
-                href="https://app.unvest.io/projects/1/0xdb49fbb3ce99b2f7aa237be400200f67b5bd3f52/staking-pools/0x6748488af27199e4aeac763438ec819a15a39551"
+                href="https://app.unvest.io/projects/1/0x61481d83965a494773087628874a2f8d44c27cc2/staking-pools/0x6748488af27199e4aeac763438ec819a15a39551"
                 target="_blank"
                 rel="noreferrer"
                 style={{ 
@@ -308,7 +308,7 @@ const Swap = () => {
                   <span style={{ fontSize: '12px', fontWeight: 700, color: 'rgba(255,255,255,0.7)' }}>Binance Web3 Portal</span>
                 </div>
                 <a 
-                  href="https://web3.binance.com/en-IN/token/eth/0xdb49fbb3ce99b2f7aa237be400200f67b5bd3f52"
+                  href="https://web3.binance.com/en-IN/token/eth/0x61481d83965a494773087628874a2f8d44c27cc2"
                   target="_blank"
                   rel="noreferrer"
                   style={{ 

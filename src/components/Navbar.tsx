@@ -11,7 +11,7 @@ const NAV_LINKS = [
   { label: 'NFTs',      path: '/nfts' },
   { label: 'Portfolio', path: '/portfolio' },
   { label: 'Protocol',  path: '/protocol' },
-  { label: 'Staking',   path: 'https://app.unvest.io/projects/1/0xdb49fbb3ce99b2f7aa237be400200f67b5bd3f52/staking-pools/0x6748488af27199e4aeac763438ec819a15a39551', isExternal: true },
+  { label: 'Staking',   path: 'https://app.unvest.io/projects/1/0x61481d83965a494773087628874a2f8d44c27cc2/staking-pools/0x6748488af27199e4aeac763438ec819a15a39551', isExternal: true },
 ];
 
 const Navbar = () => {

@@ -2,7 +2,7 @@ import { motion } from 'framer-motion';
 import { BookOpen, Code2, FileText, Layers, Network, Shield, Zap } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
-const CONTRACT = '0xdb49FBb3CE99b2f7aA237BE400200f67B5bd3F52';
+const CONTRACT = '0x61481d83965a494773087628874a2f8d44c27cc2';
 
 const SPECS = [
   { label: 'Token Name',     value: 'Liaison' },

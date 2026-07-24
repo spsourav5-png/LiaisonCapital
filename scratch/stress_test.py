@@ -24,7 +24,7 @@ ENDPOINTS = [
     {"name": "OpenSea Collection Listings Proxy", "url": f"{BASE_URL}/api/opensea/api/v2/listings/collection/liaison-669783293/all?limit=50", "headers": {"x-api-key": API_KEY}},
     
     # ── Transit Finance Proxy (Vercel) ──
-    {"name": "Transit Finance Quote Proxy", "url": f"{BASE_URL}/api/transit/v3/transit/swap?fromChainID=1&toChainID=1&token0=0xdb49FBb3CE99b2f7aA237BE400200f67B5bd3F52&token1=0xdAC17F958D2ee523a2206206994597C13D831ec7&amountIn=1000000000000000000&to=0x0000000000000000000000000000000000000000&issuer=0x0000000000000000000000000000000000000000&channel=default", "headers": {}}
+    {"name": "Transit Finance Quote Proxy", "url": f"{BASE_URL}/api/transit/v3/transit/swap?fromChainID=1&toChainID=1&token0=0x61481d83965a494773087628874a2f8d44c27cc2&token1=0xdAC17F958D2ee523a2206206994597C13D831ec7&amountIn=1000000000000000000&to=0x0000000000000000000000000000000000000000&issuer=0x0000000000000000000000000000000000000000&channel=default", "headers": {}}
 ]
 
 def test_endpoint(endpoint):
@@ -100,7 +100,7 @@ def run_stress_test():
     stress_endpoints = [
         {"name": "NFT Page Load", "url": f"{BASE_URL}/nfts", "headers": {}},
         {"name": "OpenSea NFT Proxy", "url": f"{BASE_URL}/api/opensea/api/v2/collection/liaison-669783293/nfts?limit=20", "headers": {"x-api-key": API_KEY}},
-        {"name": "Transit Finance Proxy", "url": f"{BASE_URL}/api/transit/v3/transit/swap?fromChainID=1&toChainID=1&token0=0xdb49FBb3CE99b2f7aA237BE400200f67B5bd3F52&token1=0xdAC17F958D2ee523a2206206994597C13D831ec7&amountIn=1000000000000000000&to=0x0000000000000000000000000000000000000000&issuer=0x0000000000000000000000000000000000000000&channel=default", "headers": {}}
+        {"name": "Transit Finance Proxy", "url": f"{BASE_URL}/api/transit/v3/transit/swap?fromChainID=1&toChainID=1&token0=0x61481d83965a494773087628874a2f8d44c27cc2&token1=0xdAC17F958D2ee523a2206206994597C13D831ec7&amountIn=1000000000000000000&to=0x0000000000000000000000000000000000000000&issuer=0x0000000000000000000000000000000000000000&channel=default", "headers": {}}
     ]
     
     stress_list = stress_endpoints * 10 # 30 requests total

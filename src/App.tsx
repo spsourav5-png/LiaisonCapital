@@ -14,8 +14,8 @@ import { Toaster } from 'sonner';
 import { Analytics } from '@vercel/analytics/react';
 import { SpeedInsights } from '@vercel/speed-insights/react';
 
-const CONTRACT = '0xdb49FBb3CE99b2f7aA237BE400200f67B5bd3F52';
-const SHORT_CONTRACT = '0xdb49FBb3...3F52';
+const CONTRACT = '0x61481d83965a494773087628874a2f8d44c27cc2';
+const SHORT_CONTRACT = '0x61481d83...7cc2';
 
 // ── 404 Page ──────────────────────────────────────────────────
 const NotFound = () => (
@@ -134,7 +134,7 @@ const Footer = () => {
               { label: 'DexScreener', href: `https://dexscreener.com/ethereum/${CONTRACT}` },
               { label: 'GeckoTerminal', href: 'https://www.geckoterminal.com/eth/pools/0x0e85318d52f304bdc45cf00d386e6a93030a86cdfa3ae4a28438792dc3ee8516' },
               { label: 'Uniswap Portal', href: 'https://app.uniswap.org' },
-              { label: 'Unvest Staking Pool', href: 'https://app.unvest.io/projects/1/0xdb49fbb3ce99b2f7aa237be400200f67b5bd3f52/staking-pools/0x6748488af27199e4aeac763438ec819a15a39551' },
+              { label: 'Unvest Staking Pool', href: 'https://app.unvest.io/projects/1/0x61481d83965a494773087628874a2f8d44c27cc2/staking-pools/0x6748488af27199e4aeac763438ec819a15a39551' },
               { label: 'Community Telegram', href: 'https://t.me/axionnofficial' },
             ].map(l => (
               <div key={l.label} style={{ marginBottom: '14px' }}>

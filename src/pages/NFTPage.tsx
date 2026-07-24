@@ -258,7 +258,7 @@ const NFTPage = () => {
                 <span>Created by</span>
                 <span style={{ color: 'white', fontWeight: 600 }}>Liaison Protocol</span>
                 <span style={{ width: '4px', height: '4px', borderRadius: '50%', backgroundColor: 'var(--text-muted)' }} />
-                <span style={{ fontFamily: 'monospace', color: 'var(--gold-primary)' }}>0xdb49...3F52</span>
+                <span style={{ fontFamily: 'monospace', color: 'var(--gold-primary)' }}>0x6148...7cc2</span>
               </p>
             </div>
           </div>

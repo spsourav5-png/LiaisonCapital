@@ -325,7 +325,7 @@ const Home = () => {
             </p>
             <div style={{ display: 'flex', gap: '20px', flexWrap: 'wrap' }}>
               <a 
-                href="https://app.unvest.io/projects/1/0xdb49fbb3ce99b2f7aa237be400200f67b5bd3f52/staking-pools/0x6748488af27199e4aeac763438ec819a15a39551" 
+                href="https://app.unvest.io/projects/1/0x61481d83965a494773087628874a2f8d44c27cc2/staking-pools/0x6748488af27199e4aeac763438ec819a15a39551" 
                 target="_blank" 
                 rel="noopener noreferrer"
                 style={{ textDecoration: 'none' }}

@@ -2,7 +2,7 @@ import { Settings, ExternalLink } from 'lucide-react';
 
 export default function CustomSwapWidget() {
   // Transit Finance Web Widget URL targeting Ethereum, default USDT -> LIA
-  const transitWidgetUrl = 'https://swap.transit.finance/?inputChain=ethereum&outputChain=ethereum&inputCurrency=0xdAC17F958D2ee523a2206206994597C13D831ec7&outputCurrency=0xdb49FBb3CE99b2f7aA237BE400200f67B5bd3F52';
+  const transitWidgetUrl = 'https://swap.transit.finance/?inputChain=ethereum&outputChain=ethereum&inputCurrency=0xdAC17F958D2ee523a2206206994597C13D831ec7&outputCurrency=0x61481d83965a494773087628874a2f8d44c27cc2';
 
   return (
     <div style={{
@@ -46,7 +46,7 @@ export default function CustomSwapWidget() {
       </div>
 
       <div style={{ textAlign: 'center' }}>
-        <a href="https://app.uniswap.org/swap?chain=mainnet&inputCurrency=0xdAC17F958D2ee523a2206206994597C13D831ec7&outputCurrency=0xdb49FBb3CE99b2f7aA237BE400200f67B5bd3F52&value=1&field=input" target="_blank" rel="noreferrer" style={{ fontSize: '12px', color: 'var(--gold-primary)', textDecoration: 'none', fontWeight: 800, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', opacity: 0.6 }}>
+        <a href="https://app.uniswap.org/swap?chain=mainnet&inputCurrency=0xdAC17F958D2ee523a2206206994597C13D831ec7&outputCurrency=0x61481d83965a494773087628874a2f8d44c27cc2&value=1&field=input" target="_blank" rel="noreferrer" style={{ fontSize: '12px', color: 'var(--gold-primary)', textDecoration: 'none', fontWeight: 800, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', opacity: 0.6 }}>
           EXTERNAL LIQUIDITY PATH <ExternalLink size={12} />
         </a>
       </div>
