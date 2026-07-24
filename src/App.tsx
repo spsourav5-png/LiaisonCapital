@@ -134,7 +134,7 @@ const Footer = () => {
               { label: 'DexScreener', href: `https://dexscreener.com/ethereum/${CONTRACT}` },
               { label: 'GeckoTerminal', href: 'https://www.geckoterminal.com/eth/pools/0xe9e3ebbc23869de7624dd37eb7f23f43fb1704ff938328b6f8db24808f70c236' },
               { label: 'Uniswap Portal', href: 'https://app.uniswap.org' },
-              { label: 'Unvest Staking Pool', href: 'https://app.unvest.io/projects/1/0x61481d83965a494773087628874a2f8d44c27cc2/staking-pools/0x6748488af27199e4aeac763438ec819a15a39551' },
+              { label: 'Unvest Staking Pool', href: 'https://app.unvest.io/projects/1/0x61481d83965a494773087628874a2f8d44c27cc2/staking-pools/0xbb5cacceaefb51134a91ded8bee8473ee95626b2' },
               { label: 'Community Telegram', href: 'https://t.me/axionnofficial' },
             ].map(l => (
               <div key={l.label} style={{ marginBottom: '14px' }}>
