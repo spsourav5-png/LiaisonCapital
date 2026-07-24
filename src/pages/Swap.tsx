@@ -6,7 +6,7 @@ import { useWeb3ModalProvider } from '@web3modal/ethers/react';
 import CustomSwapWidget from '../components/swap/CustomSwapWidget';
 import LiaisonChart from '../components/LiaisonChart';
 
-const GECKO_TERMINAL_URL = 'https://www.geckoterminal.com/eth/pools/0x0e85318d52f304bdc45cf00d386e6a93030a86cdfa3ae4a28438792dc3ee8516';
+const GECKO_TERMINAL_URL = 'https://www.geckoterminal.com/eth/pools/0xe9e3ebbc23869de7624dd37eb7f23f43fb1704ff938328b6f8db24808f70c236';
 
 const LIAISON_TOKEN = {
   address: '0x61481d83965a494773087628874a2f8d44c27cc2',
@@ -14,7 +14,7 @@ const LIAISON_TOKEN = {
 
 
 const Swap = () => {
-  const [liaisonPrice, setLiaisonPrice] = useState(0.01766);
+  const [liaisonPrice, setLiaisonPrice] = useState(1.4490);
   const [priceLoading, setPriceLoading] = useState(true);
   const { walletProvider } = useWeb3ModalProvider();
 
@@ -23,7 +23,7 @@ const Swap = () => {
     setPriceLoading(true);
     try {
       const res = await fetch(
-        'https://api.geckoterminal.com/api/v2/networks/eth/pools/0x0e85318d52f304bdc45cf00d386e6a93030a86cdfa3ae4a28438792dc3ee8516',
+        'https://api.geckoterminal.com/api/v2/networks/eth/pools/0xe9e3ebbc23869de7624dd37eb7f23f43fb1704ff938328b6f8db24808f70c236',
         { headers: { Accept: 'application/json;version=20230302' } }
       );
       if (!res.ok) throw new Error(`GeckoTerminal API error: ${res.status}`);

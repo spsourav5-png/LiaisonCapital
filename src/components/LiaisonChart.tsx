@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { AreaChart, Area, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid } from 'recharts';
 
-const POOL_ADDRESS = '0x0e85318d52f304bdc45cf00d386e6a93030a86cdfa3ae4a28438792dc3ee8516';
+const POOL_ADDRESS = '0xe9e3ebbc23869de7624dd37eb7f23f43fb1704ff938328b6f8db24808f70c236';
 const GECKO_API = 'https://api.geckoterminal.com/api/v2';
 
 type Timeframe = '1H' | '1D' | '1W' | '1M';

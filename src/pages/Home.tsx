@@ -83,7 +83,7 @@ const Home = () => {
     const fetchPrice = async () => {
       try {
         const res = await fetch(
-          'https://api.geckoterminal.com/api/v2/networks/eth/pools/0x0e85318d52f304bdc45cf00d386e6a93030a86cdfa3ae4a28438792dc3ee8516',
+          'https://api.geckoterminal.com/api/v2/networks/eth/pools/0xe9e3ebbc23869de7624dd37eb7f23f43fb1704ff938328b6f8db24808f70c236',
           { headers: { Accept: 'application/json;version=20230302' } }
         );
         if (!res.ok) throw new Error(`GeckoTerminal API error: ${res.status}`);
@@ -405,7 +405,7 @@ const Home = () => {
             width="100%" 
             id="geckoterminal-score-card" 
             title="GT Security Score Card" 
-            src="https://www.geckoterminal.com/eth/pools/0x0e85318d52f304bdc45cf00d386e6a93030a86cdfa3ae4a28438792dc3ee8516/security?size=max&color=dark" 
+            src="https://www.geckoterminal.com/eth/pools/0xe9e3ebbc23869de7624dd37eb7f23f43fb1704ff938328b6f8db24808f70c236/security?size=max&color=dark" 
             style={{ border: 'none', borderRadius: '16px' }}
             allow="clipboard-write" 
             allowFullScreen
