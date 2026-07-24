@@ -2,7 +2,7 @@ import { Settings, ExternalLink } from 'lucide-react';
 
 export default function CustomSwapWidget() {
   // Transit Finance Web Widget URL targeting Ethereum, default USDT -> LIA
-  const transitWidgetUrl = 'https://swap.transit.finance/?inputChain=ethereum&outputChain=ethereum&inputCurrency=0xdAC17F958D2ee523a2206206994597C13D831ec7&outputCurrency=0x61481d83965a494773087628874a2f8d44c27cc2';
+  const transitWidgetUrl = 'https://swap.transit.finance/?inputChain=ETH&outputChain=ETH&inputCurrency=0xdAC17F958D2ee523a2206206994597C13D831ec7&outputCurrency=0x61481d83965a494773087628874a2f8d44c27cc2';
 
   return (
     <div style={{
